@@ -1,18 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody2D))] //typeof(TouchingDirections), typeof(Damageable))]
+[RequireComponent(typeof(Rigidbody2D), typeof(TouchingDirections))]// typeof(Damageable))]
 public class PlayerController : MonoBehaviour
 {
 
     Rigidbody2D rigi;
     Vector2 moveInput;
     Animator animator;
+    TouchingDirections touchingDirections;
+    //  Damageable damageable;
 
 
     public float walkSpeed = 5f;
+    public float jumpImpulse = 10f;
+    public float airSpeed = 8f;
 
 
     [SerializeField]
@@ -45,13 +50,48 @@ public class PlayerController : MonoBehaviour
             _isFacingRight = value;
         }
     }
-    //public bool CanMove
-    //{
-    //    get
-    //    {
-    //        return animator.GetBool(AnimationStrings.canMove);
-    //    }
-    //}
+
+    public float CurrentMoveSpeed
+    {
+        get
+        {
+
+            if (CanMove)
+            {
+
+                if (IsMoving && !touchingDirections.IsOnWall)
+                {
+                    if (touchingDirections.IsGrounded)
+                    {
+
+                        return walkSpeed;
+
+                    }
+
+                    else return airSpeed;
+                }
+                else
+                {  //Idle is 0
+                    return 0;
+                }
+            }
+            else
+            {//Movement Locked
+                return 0;
+            }
+        }
+
+    }
+
+
+
+    public bool CanMove
+    {
+        get
+        {
+            return animator.GetBool(AnimationStrings.canMove);
+        }
+    }
     //public bool IsAlive
     //{
     //    get
@@ -65,16 +105,18 @@ public class PlayerController : MonoBehaviour
     {
         animator = this.GetComponentInChildren<Animator>();
         rigi = GetComponent<Rigidbody2D>();
+        touchingDirections = GetComponent<TouchingDirections>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     private void FixedUpdate()
     {
-        rigi.velocity = new Vector2(moveInput.x * walkSpeed, rigi.velocity.y);
+        rigi.velocity = new Vector2(moveInput.x * CurrentMoveSpeed, rigi.velocity.y);
+        animator.SetFloat(AnimationStrings.yVelocity, rigi.velocity.y);
     }
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -82,10 +124,10 @@ public class PlayerController : MonoBehaviour
 
 
 
-      
-            SetfacingDirection(moveInput);
-            IsMoving = moveInput != Vector2.zero;
-     
+
+        SetfacingDirection(moveInput);
+        IsMoving = moveInput != Vector2.zero;
+
 
     }
 
@@ -101,4 +143,31 @@ public class PlayerController : MonoBehaviour
             IsFacingRight = false;
         }
     }
+    public void OnJump(InputAction.CallbackContext context)
+    { //TODO check if alive as well
+        if (context.started && touchingDirections.IsGrounded&&CanMove)
+        {
+            animator.SetTrigger(AnimationStrings.jumpTrigger);
+            rigi.velocity = new Vector2(rigi.velocity.x, jumpImpulse);
+        }
+
+
+    }
+    public void OnRoll(InputAction.CallbackContext context)
+    {
+        if (context.started && touchingDirections.IsGrounded&&IsMoving&&CanMove)
+        {
+            animator.SetTrigger(AnimationStrings.roll);
+            rigi.velocity = new Vector2(rigi.velocity.x *2, rigi.velocity.y);
+        }
+    }
+    public void Onattack(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+
+            animator.SetTrigger(AnimationStrings.attackTrigger);
+        }
+    }
+
 }
