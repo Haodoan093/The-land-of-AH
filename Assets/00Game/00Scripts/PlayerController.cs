@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
 
     public float walkSpeed = 5f;
     public float jumpImpulse = 10f;
+    public float rollSpeed = 10f;
     public float airSpeed = 8f;
 
 
@@ -92,13 +93,13 @@ public class PlayerController : MonoBehaviour
             return animator.GetBool(AnimationStrings.canMove);
         }
     }
-    //public bool IsAlive
-    //{
-    //    get
-    //    {
-    //        return animator.GetBool(AnimationStrings.isAlive);
-    //    }
-    //}
+    public bool IsAlive
+    {
+        get
+        {
+            return animator.GetBool(AnimationStrings.isAlive);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -124,10 +125,15 @@ public class PlayerController : MonoBehaviour
 
 
 
-
-        SetfacingDirection(moveInput);
-        IsMoving = moveInput != Vector2.zero;
-
+        if (IsAlive)
+        {
+            SetfacingDirection(moveInput);
+            IsMoving = moveInput != Vector2.zero;
+        }
+        else
+        {
+            IsMoving = false;
+        }
 
     }
 
@@ -158,7 +164,7 @@ public class PlayerController : MonoBehaviour
         if (context.started && touchingDirections.IsGrounded&&IsMoving&&CanMove)
         {
             animator.SetTrigger(AnimationStrings.roll);
-            rigi.velocity = new Vector2(rigi.velocity.x *2, rigi.velocity.y);
+            rigi.velocity = new Vector2(rollSpeed* moveInput.x, rigi.velocity.y);
         }
     }
     public void Onattack(InputAction.CallbackContext context)
