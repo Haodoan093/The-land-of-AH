@@ -145,7 +145,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-        if (IsAlive&&!IsDefending)
+        if (IsAlive&&!IsDefending&&CanMove)
         {
             SetfacingDirection(moveInput);
             IsMoving = moveInput != Vector2.zero;
@@ -198,14 +198,34 @@ public class PlayerController : MonoBehaviour
         else if (context.canceled)
             IsDefending = false;
     }
-
-    public void OnRangedAttack(InputAction.CallbackContext context)
+    public void OnFireBow(InputAction.CallbackContext context)
     {
         Debug.Log("sas");
         if (context.started)
         {
 
             animator.SetTrigger(AnimationStrings.rangedAttackTrigger);
+            animator.SetTrigger(AnimationStrings.fireBowTrigger);
+        }
+    }
+    public void OnRainOfArrows(InputAction.CallbackContext context)
+    {
+        Debug.Log("mua ten");
+        if (context.started)
+        {
+
+            animator.SetTrigger(AnimationStrings.rangedAttackTrigger);
+            animator.SetTrigger(AnimationStrings.rainOfArrowsTrigger);
+        }
+    }
+    public void OnSPLaze(InputAction.CallbackContext context)
+    {
+        Debug.Log("laze");
+        if (context.started)
+        {
+
+            animator.SetTrigger(AnimationStrings.rangedAttackTrigger);
+            animator.SetTrigger(AnimationStrings.spLazeTrigger);
         }
     }
 

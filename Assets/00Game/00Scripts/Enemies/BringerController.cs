@@ -84,6 +84,17 @@ public class BringerController : MonoBehaviour
             animator.SetFloat(AnimationStrings.attackCooldown, MathF.Max(value, 0));
         }
     }
+    public float SpellCooldown
+    {
+        get
+        {
+            return animator.GetFloat(AnimationStrings.spellCooldown);
+        }
+        private set
+        {
+            animator.SetFloat(AnimationStrings.spellCooldown, MathF.Max(value, 0));
+        }
+    }
 
 
 
@@ -139,6 +150,14 @@ public class BringerController : MonoBehaviour
         if (AttackCooldown > 0)
         {
             AttackCooldown -= Time.deltaTime;
+        }
+        if (SpellCooldown > 0)
+        {
+            SpellCooldown -= Time.deltaTime;
+        }
+        else
+        {
+            SpellCooldown = 5;
         }
     }
     public void OnHit(float dmg, Vector2 knockBack)

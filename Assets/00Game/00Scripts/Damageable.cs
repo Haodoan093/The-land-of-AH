@@ -132,8 +132,11 @@ public class Damageable : MonoBehaviour
     public bool Heal(float healthRestore)
     {//hoi mau
         if (IsAlive && Health < MaxHealth)
-        {
+        {  
+
+            //kiem tra luong mau da mat
             float maxHeal = Mathf.Max(MaxHealth - Health, 0);
+            //luong mau co the hoi
             float actualHeal = Mathf.Min(maxHeal, healthRestore);
 
             Health += actualHeal;

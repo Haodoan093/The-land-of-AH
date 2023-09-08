@@ -16,7 +16,7 @@ public class AnimationStrings : MonoBehaviour
     internal static string hasTarget = "hasTarget";
 
     internal static string isAlive = "isAlive";
-    internal static string isHit = "isHit";
+   
     internal static string hitTrigger = "hit";
     internal static string lockVelocity = "lockVelocity";
     internal static string attackCooldown = "attackCooldown";
@@ -24,4 +24,8 @@ public class AnimationStrings : MonoBehaviour
 
     internal static string roll = "roll";
     internal static string defend="defend";
+    internal static string rainOfArrowsTrigger="attack3";
+    internal static string fireBowTrigger="attack2";
+    internal static string spLazeTrigger="sp_atk";
+    internal static string spellCooldown="spellCooldown";
 }
