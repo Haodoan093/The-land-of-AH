@@ -4,7 +4,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(TouchingDirections))]// typeof(Damageable))]
+
+[RequireComponent(typeof(Rigidbody2D), typeof(TouchingDirections), typeof(Damageable))]
 public class PlayerController : MonoBehaviour
 {
 
@@ -12,7 +13,7 @@ public class PlayerController : MonoBehaviour
     Vector2 moveInput;
     Animator animator;
     TouchingDirections touchingDirections;
-    //  Damageable damageable;
+      Damageable damageable;
 
 
     public float walkSpeed = 5f;
@@ -20,7 +21,20 @@ public class PlayerController : MonoBehaviour
     public float rollSpeed = 10f;
     public float airSpeed = 8f;
 
+    private bool _isdefending = false;
+    public bool IsDefending
+    {
+        get
+        {
+            return _isdefending;
+        }
+        private set
+        {
+            _isdefending = value;
+            animator.SetBool(AnimationStrings.defend, value);
 
+        }
+    }
     [SerializeField]
     private bool _isMoving = false;
     public bool IsMoving
@@ -101,12 +115,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    
+
+
     // Start is called before the first frame update
     void Start()
     {
         animator = this.GetComponentInChildren<Animator>();
         rigi = GetComponent<Rigidbody2D>();
         touchingDirections = GetComponent<TouchingDirections>();
+        damageable = this.GetComponent<Damageable>();
     }
 
     // Update is called once per frame
@@ -116,8 +134,10 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        rigi.velocity = new Vector2(moveInput.x * CurrentMoveSpeed, rigi.velocity.y);
+        if (!damageable.LockVelocity)
+            rigi.velocity = new Vector2(moveInput.x * CurrentMoveSpeed, rigi.velocity.y);
         animator.SetFloat(AnimationStrings.yVelocity, rigi.velocity.y);
+
     }
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -125,7 +145,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-        if (IsAlive)
+        if (IsAlive&&!IsDefending)
         {
             SetfacingDirection(moveInput);
             IsMoving = moveInput != Vector2.zero;
@@ -167,6 +187,28 @@ public class PlayerController : MonoBehaviour
             rigi.velocity = new Vector2(rollSpeed* moveInput.x, rigi.velocity.y);
         }
     }
+    public void OnDefend(InputAction.CallbackContext context)
+    {
+        if (context.started && touchingDirections.IsGrounded)
+        {
+          
+           
+            IsDefending = true;
+        }
+        else if (context.canceled)
+            IsDefending = false;
+    }
+
+    public void OnRangedAttack(InputAction.CallbackContext context)
+    {
+        Debug.Log("sas");
+        if (context.started)
+        {
+
+            animator.SetTrigger(AnimationStrings.rangedAttackTrigger);
+        }
+    }
+
     public void Onattack(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -174,6 +216,11 @@ public class PlayerController : MonoBehaviour
 
             animator.SetTrigger(AnimationStrings.attackTrigger);
         }
+    }
+    public void OnHit(float dmg, Vector2 knockBack)
+    {
+        // LockVelocity = true;
+        rigi.velocity = new Vector2(knockBack.x, rigi.velocity.y + knockBack.y);
     }
 
 }

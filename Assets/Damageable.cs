@@ -115,13 +115,13 @@ public class Damageable : MonoBehaviour
         if (IsAlive && !isInvincible)
         {
             isInvincible = true;
+             
+            //    CharacterEvents.characterDamaged.Invoke(gameObject, damage);
+            Health -= damage;
+            LockVelocity = true;
+            animator.SetTrigger(AnimationStrings.hitTrigger);
             //Notify other subscribed components that the damageble was hit to handle the knockback and such
             damageableHit?.Invoke(damage, knockBack);
-            //    CharacterEvents.characterDamaged.Invoke(gameObject, damage);
-
-            Health -= damage;
-            animator.SetTrigger(AnimationStrings.hitTrigger);
-
             return true;
         }
         //Unable to be hit

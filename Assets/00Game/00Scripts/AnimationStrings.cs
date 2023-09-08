@@ -23,4 +23,5 @@ public class AnimationStrings : MonoBehaviour
     internal static string rangedAttackTrigger = "rangedAttack";
 
     internal static string roll = "roll";
+    internal static string defend="defend";
 }

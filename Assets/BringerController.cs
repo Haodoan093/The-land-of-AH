@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[RequireComponent(typeof(Rigidbody2D), typeof(TouchingDirections))]
+[RequireComponent(typeof(Rigidbody2D), typeof(TouchingDirections), typeof(Damageable))]
 public class BringerController : MonoBehaviour
 {
     public float walkAcceleration = 3f;
@@ -13,7 +13,7 @@ public class BringerController : MonoBehaviour
     Rigidbody2D rigi;
     TouchingDirections touchingDirection;
     Animator animator;
-    // Damageable damageable;
+     Damageable damageable;
     //atk
     public DetectionZone attackZone;
     public DetectionZone cliffDetection;
@@ -73,6 +73,17 @@ public class BringerController : MonoBehaviour
         }
 
     }
+    public float AttackCooldown
+    {
+        get
+        {
+            return animator.GetFloat(AnimationStrings.attackCooldown);
+        }
+        private set
+        {
+            animator.SetFloat(AnimationStrings.attackCooldown, MathF.Max(value, 0));
+        }
+    }
 
 
 
@@ -82,7 +93,7 @@ public class BringerController : MonoBehaviour
         rigi = GetComponent<Rigidbody2D>();
         touchingDirection = GetComponent<TouchingDirections>();
         animator = GetComponentInChildren<Animator>();
-      //  damageable = GetComponent<Damageable>();
+        damageable = GetComponent<Damageable>();
     }
 
 
@@ -102,11 +113,12 @@ public class BringerController : MonoBehaviour
     private void FixedUpdate()
     {
 
-        if (touchingDirection.IsOnWall && touchingDirection.IsGrounded)
-        {// dang tren Group va phai tuong or cliff
+        if (touchingDirection.IsOnWall && touchingDirection.IsGrounded&&!HasTarget)
+        {// dang tren Groud va phai tuong or cliff
             FlipDirection();
         }
-             if (CanMove)
+        if(!damageable.LockVelocity) {
+            if (CanMove)
             {//gioi han toc do
                 rigi.velocity = new Vector2(maxSpeed * walkDirectionVector.x, rigi.velocity.y);
             }
@@ -114,6 +126,8 @@ public class BringerController : MonoBehaviour
             {
                 rigi.velocity = new Vector2(Mathf.Lerp(rigi.velocity.x, 0, walkStopRate), rigi.velocity.y);
             }
+        }
+       
              
           
 
@@ -122,6 +136,15 @@ public class BringerController : MonoBehaviour
     private void Update()
     {
         HasTarget = attackZone.detectionColliders.Count > 0;
+        if (AttackCooldown > 0)
+        {
+            AttackCooldown -= Time.deltaTime;
+        }
+    }
+    public void OnHit(float dmg, Vector2 knockBack)
+    {
+        // LockVelocity = true;
+        rigi.velocity = new Vector2(knockBack.x, rigi.velocity.y + knockBack.y);
     }
     public void OnCliffDetection()
     {
