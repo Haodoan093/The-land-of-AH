@@ -129,8 +129,8 @@ public class BringerController : MonoBehaviour
             FlipDirection();
         }
         if(!damageable.LockVelocity) {
-            if (CanMove)
-            {//gioi han toc do
+            if (CanMove&&!HasTarget)
+            {
                 rigi.velocity = new Vector2(maxSpeed * walkDirectionVector.x, rigi.velocity.y);
             }
             else
