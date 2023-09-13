@@ -191,12 +191,16 @@ public class PlayerController : MonoBehaviour
     {
         if (context.started && touchingDirections.IsGrounded)
         {
-          
-           
+
+            damageable.Armor = 100;
             IsDefending = true;
         }
         else if (context.canceled)
+        {
+            damageable.Armor = 0;
             IsDefending = false;
+        }
+            
     }
     public void OnFireBow(InputAction.CallbackContext context)
     {

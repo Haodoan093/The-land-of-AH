@@ -11,10 +11,22 @@ public class Damageable : MonoBehaviour
     Animator animator;
 
 
+    [SerializeField]
+    private float _armor = 0;
+    public float Armor
+    {
+        get
+        {
+            return _armor;
+        }
+        set
+        {
+            _armor = value;
+        }
+    }
     //mau toi da
     [SerializeField]
     private float _maxHealth = 100;
-
     public float MaxHealth
     {
         get
@@ -116,13 +128,19 @@ public class Damageable : MonoBehaviour
         {
             isInvincible = true;
              
-            CharacterEvents.characterDamaged.Invoke(gameObject, damage);
-            Health -= damage;
-            LockVelocity = true;
-            animator.SetTrigger(AnimationStrings.hitTrigger);
-            //Notify other subscribed components that the damageble was hit to handle the knockback and such
-            damageableHit?.Invoke(damage, knockBack);
-            return true;
+           
+             if((damage - Armor) > 0)
+            {
+                CharacterEvents.characterDamaged.Invoke(gameObject, damage-Armor);
+                Health -= damage - Armor;
+                LockVelocity = true;
+
+                animator.SetTrigger(AnimationStrings.hitTrigger);
+                //Notify other subscribed components that the damageble was hit to handle the knockback and such
+                damageableHit?.Invoke(damage, knockBack);
+                return true;
+            }
+            
         }
         //Unable to be hit
         return false;
