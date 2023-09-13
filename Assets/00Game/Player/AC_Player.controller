@@ -41,10 +41,7 @@ AnimatorStateTransition:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: defend
-    m_EventTreshold: 0
+  m_Conditions: []
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4160583556559275684}
   m_Solo: 0
@@ -605,6 +602,9 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 6454660544332470332}
     m_Position: {x: 600, y: -60, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -1763961593442651768}
+    m_Position: {x: 635, y: 5, z: 0}
   m_ChildStateMachines:
   - serializedVersion: 1
     m_StateMachine: {fileID: -5914992003301434209}
@@ -623,9 +623,6 @@ AnimatorStateMachine:
   - {fileID: 6707258274798736000}
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: -3772924983933410318}
-    second:
-    - {fileID: -6774152564857813433}
   - first: {fileID: -5914992003301434209}
     second:
     - {fileID: 1108085571401926238}
@@ -640,12 +637,41 @@ AnimatorStateMachine:
   - first: {fileID: 4577745897961794684}
     second:
     - {fileID: -4885853084554048804}
+  - first: {fileID: -3772924983933410318}
+    second:
+    - {fileID: -6774152564857813433}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 630, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 130, z: 0}
   m_ExitPosition: {x: 870, y: 150, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 4160583556559275684}
+--- !u!1102 &-1763961593442651768
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: player_slide
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: f16465783ab1ab2479cd616cf1dd417e, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &-1479526046419352235
 AnimatorState:
   serializedVersion: 6
