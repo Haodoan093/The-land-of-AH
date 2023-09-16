@@ -1,8 +1,9 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 
 [RequireComponent(typeof(Rigidbody2D), typeof(TouchingDirections), typeof(Damageable))]
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour
     public float walkSpeed = 5f;
     public float jumpImpulse = 10f;
     public float rollSpeed = 10f;
+    public float slideSpeed = 10f;
     public float airSpeed = 8f;
 
     private bool _isdefending = false;
@@ -35,6 +37,7 @@ public class PlayerController : MonoBehaviour
 
         }
     }
+
     [SerializeField]
     private bool _isMoving = false;
     public bool IsMoving
@@ -49,6 +52,8 @@ public class PlayerController : MonoBehaviour
             animator.SetBool(AnimationStrings.isMoving, value);
         }
     }
+
+
     public bool _isFacingRight = true;
     public bool IsFacingRight
     {
@@ -65,7 +70,51 @@ public class PlayerController : MonoBehaviour
             _isFacingRight = value;
         }
     }
+    [SerializeField]
+    private bool _isSlide = false;
+    public bool IsSliding
+    {
+        get
+        {
+            return _isSlide;
+        }
+        private set
+        {
+            _isSlide = value;
+            animator.SetBool(AnimationStrings.slide, value);
 
+        }
+    }
+    [SerializeField]
+    private bool _isRolling = false;
+    public bool IsRolling
+    {
+        get
+        {
+            return _isRolling;
+        }
+        private set
+        {
+            _isRolling = value;
+            animator.SetBool(AnimationStrings.roll, value);
+
+        }
+    }
+    private float slideDuration = 0.4f;
+    private float rollDuration = 0.2f;
+
+    private IEnumerator EndSlide()
+    {
+        yield return new WaitForSeconds(slideDuration);
+        IsSliding = false;
+       
+    }
+    private IEnumerator EndRoll()
+    {
+        yield return new WaitForSeconds(rollDuration);
+        IsRolling = false;
+
+    }
     public float CurrentMoveSpeed
     {
         get
@@ -74,7 +123,7 @@ public class PlayerController : MonoBehaviour
             if (CanMove)
             {
 
-                if (IsMoving && !touchingDirections.IsOnWall)
+                if (IsMoving && !touchingDirections.IsOnWall|| IsSliding)
                 {
                     if (touchingDirections.IsGrounded)
                     {
@@ -97,7 +146,23 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+    public float jumpCounter = 0;
+    public float jumpTime = 1;
+    [SerializeField]
+    private bool _isJumping = false;
+    public bool IsJumping
+    {
+        get
+        {
+            return _isJumping;
+        }
+        private set
+        {
+            _isJumping = value;
+          
 
+        }
+    }
 
 
     public bool CanMove
@@ -115,9 +180,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    
 
 
+    Vector2 vecGravity;
+    [SerializeField] float fallMultiplier;
+    [SerializeField] float jumpMultiplier;
     // Start is called before the first frame update
     void Start()
     {
@@ -125,25 +192,57 @@ public class PlayerController : MonoBehaviour
         rigi = GetComponent<Rigidbody2D>();
         touchingDirections = GetComponent<TouchingDirections>();
         damageable = this.GetComponent<Damageable>();
+        vecGravity = new Vector2(0, -Physics2D.gravity.y);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (rigi.velocity.y < 0)
+        {
+           
+            rigi.velocity -= vecGravity* fallMultiplier*Time.deltaTime;
+        }
+        if(rigi.velocity.y > 0 && IsJumping)
+        {
+            jumpCounter += Time.deltaTime;
+            if (jumpCounter > jumpTime) IsJumping = false;
+
+            float t = jumpCounter / jumpTime;
+            float curruntJumpM = jumpMultiplier;
+            if (t > 0.5f)
+            {
+                curruntJumpM = jumpMultiplier * (1 - t);
+            }
+            rigi.velocity += vecGravity * curruntJumpM * Time.deltaTime;
+        }
+       
+
 
     }
     private void FixedUpdate()
     {
-        if (!damageable.LockVelocity)
-            rigi.velocity = new Vector2(moveInput.x * CurrentMoveSpeed, rigi.velocity.y);
+        if (!damageable.LockVelocity )
+        { 
+            if(IsRolling||IsSliding)
+            {
+                float slideDirection = IsFacingRight ? 1f : -1f;
+                rigi.velocity = new Vector2(slideDirection * slideSpeed, rigi.velocity.y);
+            }
+            else 
+            {
+
+                rigi.velocity = new Vector2(moveInput.x * CurrentMoveSpeed, rigi.velocity.y);
+            }
+
+        }
         animator.SetFloat(AnimationStrings.yVelocity, rigi.velocity.y);
+      
 
     }
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
-
-
 
         if (IsAlive&&!IsDefending&&CanMove)
         {
@@ -175,18 +274,40 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetTrigger(AnimationStrings.jumpTrigger);
             rigi.velocity = new Vector2(rigi.velocity.x, jumpImpulse);
+            IsJumping = true;
         }
-
-
-    }
-    public void OnRoll(InputAction.CallbackContext context)
-    {
-        if (context.started && touchingDirections.IsGrounded&&IsMoving&&CanMove)
+        if (context.canceled)
         {
-            animator.SetTrigger(AnimationStrings.roll);
-            rigi.velocity = new Vector2(rollSpeed* moveInput.x, rigi.velocity.y);
+            IsJumping = false;
+            jumpCounter = 0;
+        }
+
+
+    }
+  
+     public void OnRoll(InputAction.CallbackContext context)
+        {
+         
+        if (context.started && IsAlive && !IsDefending && CanMove)
+        {
+            if (touchingDirections.IsGrounded && !touchingDirections.IsOnWall)
+            {
+                Debug.Log("roll");
+                IsRolling = true;
+                StartCoroutine(EndRoll());
+              
+            }
+        }
+        else if (context.canceled && IsSliding)
+        {
+            // Stop sliding if the input is released
+            IsRolling = false;
+            // Apply a small counter-force to stop sliding immediately
+            rigi.velocity = new Vector2(0f, rigi.velocity.y);
         }
     }
+
+    
     public void OnDefend(InputAction.CallbackContext context)
     {
         if (context.started && touchingDirections.IsGrounded)
@@ -241,6 +362,27 @@ public class PlayerController : MonoBehaviour
             animator.SetTrigger(AnimationStrings.attackTrigger);
         }
     }
+    public void OnSlide(InputAction.CallbackContext context)
+    {
+        if (context.started && IsAlive && !IsDefending && CanMove)
+        {
+            if (touchingDirections.IsGrounded&&!touchingDirections.IsOnWall)
+            {
+                Debug.Log("slide");
+                IsSliding = true;
+                StartCoroutine(EndSlide());
+               
+            }
+        }
+        else if (context.canceled && IsSliding)
+        {
+            // Stop sliding if the input is released
+            IsSliding = false;
+            // Apply a small counter-force to stop sliding immediately
+            rigi.velocity = new Vector2(0f, rigi.velocity.y);
+        }
+    }
+
     public void OnHit(float dmg, Vector2 knockBack)
     {
         // LockVelocity = true;

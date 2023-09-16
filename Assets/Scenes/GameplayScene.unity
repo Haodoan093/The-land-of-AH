@@ -15274,7 +15274,19 @@ MonoBehaviour:
     m_ActionId: de6547f0-ef01-4436-b211-6bc6905c80e6
     m_ActionName: Player/Sp laze[/Keyboard/o]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2094114990}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnSlide
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: f41a5403-ecdf-4ab7-927f-e5c9adc70f7d
     m_ActionName: Player/Slide[/Keyboard/k]
   m_NeverAutoSwitchControlSchemes: 0
@@ -15294,12 +15306,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3196cb448d63e414196d9666e077a5af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 8
-  jumpImpulse: 10
-  rollSpeed: 10
-  airSpeed: 6
+  walkSpeed: 12
+  jumpImpulse: 12
+  rollSpeed: 14
+  slideSpeed: 19
+  airSpeed: 8
   _isMoving: 0
   _isFacingRight: 1
+  _isSlide: 0
+  _isRolling: 0
+  jumpCounter: 0
+  jumpTime: 0.2
+  _isJumping: 0
+  fallMultiplier: 3
+  jumpMultiplier: 1
 --- !u!114 &2094114991
 MonoBehaviour:
   m_ObjectHideFlags: 0
