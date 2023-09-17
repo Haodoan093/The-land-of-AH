@@ -10,6 +10,7 @@ public class ProjectileLauncher : MonoBehaviour
 
     public GameObject skill2Prefab;
     public Transform launchPoint2;
+    private rainPoint rainP;
 
     public GameObject spSkillPrefab;
     public Transform launchPoint3;
@@ -19,7 +20,7 @@ public class ProjectileLauncher : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        rainP=launchPoint2.GetComponent<rainPoint>();
     }
     
     public void FireProjectile()
@@ -35,13 +36,27 @@ public class ProjectileLauncher : MonoBehaviour
     public void Skill2()
     { Vector3 rainPoint= launchPoint2.GetComponent<rainPoint>().GetClosestEnemyPosition();
         rainPoint=new Vector3(rainPoint.x,rainPoint.y+(2.2f),rainPoint.z);
-         GameObject projectile = Instantiate(skill2Prefab, rainPoint, skill2Prefab.transform.rotation);
-        Vector3 origScale = projectile.transform.localScale;
+        if (rainP.HasTarget)
+        {
 
-        projectile.transform.localScale = new Vector3(
-            origScale.x * transform.parent.localScale.x > 0 ? 1 : -1,
-            origScale.y,
-            origScale.z);
+            GameObject projectile = Instantiate(skill2Prefab, rainPoint, skill2Prefab.transform.rotation);
+            Vector3 origScale = projectile.transform.localScale;
+            projectile.transform.localScale = new Vector3(
+             origScale.x * transform.parent.localScale.x > 0 ? 1 : -1,
+             origScale.y,
+             origScale.z);
+
+        }
+        else
+        {
+            GameObject projectile = Instantiate(skill2Prefab, launchPoint2.transform.position, skill2Prefab.transform.rotation);
+            Vector3 origScale = projectile.transform.localScale;
+            projectile.transform.localScale = new Vector3(
+             origScale.x * transform.parent.localScale.x > 0 ? 1 : -1,
+             origScale.y,
+             origScale.z);
+        }
+         
     }
     public void SPSkill()
     {

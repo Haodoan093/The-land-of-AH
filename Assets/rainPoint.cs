@@ -6,6 +6,11 @@ public class rainPoint : MonoBehaviour
 {
     public List<Transform> enemiesInRange = new List<Transform>();
 
+    private bool _hasTarget = false;
+    public bool HasTarget { 
+      get { return _hasTarget; }
+        set { _hasTarget = value; }
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log(other.gameObject.name);
@@ -26,8 +31,15 @@ public class rainPoint : MonoBehaviour
 
     private void Update()
     {
-        Vector2 closestEnemyPosition = GetClosestEnemyPosition();
-        // Debug.Log("Closest enemy position: " + closestEnemyPosition);
+       if(enemiesInRange.Count > 0)
+        {
+            HasTarget=true;
+        }
+        else
+        {
+            HasTarget = false;
+        }
+        
     }
 
     // Hàm này trả về vị trí của enemy/boss gần nhất
