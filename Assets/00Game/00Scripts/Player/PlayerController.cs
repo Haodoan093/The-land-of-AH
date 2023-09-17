@@ -325,7 +325,7 @@ public class PlayerController : MonoBehaviour
     }
     public void OnFireBow(InputAction.CallbackContext context)
     {
-        Debug.Log("sas");
+      
         if (context.started)
         {
 
@@ -335,7 +335,7 @@ public class PlayerController : MonoBehaviour
     }
     public void OnRainOfArrows(InputAction.CallbackContext context)
     {
-        Debug.Log("mua ten");
+       
         if (context.started)
         {
 
@@ -345,7 +345,7 @@ public class PlayerController : MonoBehaviour
     }
     public void OnSPLaze(InputAction.CallbackContext context)
     {
-        Debug.Log("laze");
+       
         if (context.started)
         {
 
@@ -368,7 +368,7 @@ public class PlayerController : MonoBehaviour
         {
             if (touchingDirections.IsGrounded&&!touchingDirections.IsOnWall)
             {
-                Debug.Log("slide");
+               
                 IsSliding = true;
                 StartCoroutine(EndSlide());
                

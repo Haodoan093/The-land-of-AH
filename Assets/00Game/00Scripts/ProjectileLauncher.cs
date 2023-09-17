@@ -33,8 +33,9 @@ public class ProjectileLauncher : MonoBehaviour
             origScale.z);
     }
     public void Skill2()
-    {
-        GameObject projectile = Instantiate(skill2Prefab, launchPoint2.transform.position, skill2Prefab.transform.rotation);
+    { Vector3 rainPoint= launchPoint2.GetComponent<rainPoint>().GetClosestEnemyPosition();
+        rainPoint=new Vector3(rainPoint.x,rainPoint.y+(2.2f),rainPoint.z);
+         GameObject projectile = Instantiate(skill2Prefab, rainPoint, skill2Prefab.transform.rotation);
         Vector3 origScale = projectile.transform.localScale;
 
         projectile.transform.localScale = new Vector3(
