@@ -14,7 +14,8 @@ public class PlayerController : MonoBehaviour
     Vector2 moveInput;
     Animator animator;
     TouchingDirections touchingDirections;
-      Damageable damageable;
+    Damageable damageable;
+    CountDownTime countdown;
 
 
     public float walkSpeed = 5f;
@@ -192,6 +193,7 @@ public class PlayerController : MonoBehaviour
         rigi = GetComponent<Rigidbody2D>();
         touchingDirections = GetComponent<TouchingDirections>();
         damageable = this.GetComponent<Damageable>();
+        countdown=this.GetComponent<CountDownTime>();
         vecGravity = new Vector2(0, -Physics2D.gravity.y);
     }
 
@@ -326,40 +328,45 @@ public class PlayerController : MonoBehaviour
     public void OnFireBow(InputAction.CallbackContext context)
     {
       
-        if (context.started)
+        if (context.started&&countdown.CanFireBow)
         {
 
             animator.SetTrigger(AnimationStrings.rangedAttackTrigger);
             animator.SetTrigger(AnimationStrings.fireBowTrigger);
+            countdown.CanFireBow = false;
         }
     }
     public void OnRainOfArrows(InputAction.CallbackContext context)
     {
        
-        if (context.started)
+        if (context.started&&countdown.CanRainOfArrows)
         {
 
             animator.SetTrigger(AnimationStrings.rangedAttackTrigger);
             animator.SetTrigger(AnimationStrings.rainOfArrowsTrigger);
+            countdown.CanRainOfArrows=false;
+
         }
     }
     public void OnSPLaze(InputAction.CallbackContext context)
     {
        
-        if (context.started)
+        if (context.started&&countdown.CanSPLaze)
         {
 
             animator.SetTrigger(AnimationStrings.rangedAttackTrigger);
             animator.SetTrigger(AnimationStrings.spLazeTrigger);
+            countdown.CanSPLaze=false;
         }
     }
 
     public void Onattack(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started&&countdown.CanAttack)
         {
 
             animator.SetTrigger(AnimationStrings.attackTrigger);
+            countdown.CanAttack=false;
         }
     }
     public void OnSlide(InputAction.CallbackContext context)

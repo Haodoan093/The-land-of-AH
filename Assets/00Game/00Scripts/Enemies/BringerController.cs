@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +15,7 @@ public class BringerController : MonoBehaviour
     Animator animator;
      Damageable damageable;
     //atk
+    public DetectionRange rangeZone;
     public DetectionZone attackZone;
     public DetectionZone cliffDetection;
     public enum WalkalbeDirection
@@ -105,6 +106,7 @@ public class BringerController : MonoBehaviour
         touchingDirection = GetComponent<TouchingDirections>();
         animator = GetComponentInChildren<Animator>();
         damageable = GetComponent<Damageable>();
+        rangeZone = GetComponentInChildren<DetectionRange>();
     }
 
 
@@ -123,13 +125,27 @@ public class BringerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-
-        if (touchingDirection.IsOnWall && touchingDirection.IsGrounded&&!HasTarget)
-        {// dang tren Groud va phai tuong or cliff
+        if (touchingDirection.IsOnWall && touchingDirection.IsGrounded && !HasTarget)
+        {
             FlipDirection();
         }
-        if(!damageable.LockVelocity) {
-            if (CanMove&&!HasTarget)
+        if (!damageable.LockVelocity)
+        {
+            if (CanMove && rangeZone.HasTarget)
+            {
+                // Lấy vị trí của mục tiêu từ rangeZone
+                Vector3 targetPosition = rangeZone.playerPosition;
+
+                // Tính toán hướng để đuổi theo mục tiêu
+                Vector2 directionToTarget = (targetPosition - transform.position).normalized;
+
+                // Điều chỉnh hướng di chuyển dựa trên hướng này
+                WalkDirection = (directionToTarget.x > 0) ? WalkalbeDirection.Right : WalkalbeDirection.Left;
+
+                // Di chuyển về phía mục tiêu
+                rigi.velocity = new Vector2(maxSpeed * directionToTarget.x, rigi.velocity.y);
+            }
+            else if (CanMove && !HasTarget)
             {
                 rigi.velocity = new Vector2(maxSpeed * walkDirectionVector.x, rigi.velocity.y);
             }
@@ -138,11 +154,8 @@ public class BringerController : MonoBehaviour
                 rigi.velocity = new Vector2(Mathf.Lerp(rigi.velocity.x, 0, walkStopRate), rigi.velocity.y);
             }
         }
-       
-             
-          
-
     }
+
     // Update is called once per frame
     private void Update()
     {
