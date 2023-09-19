@@ -8,11 +8,11 @@ public class DetectionZone : MonoBehaviour
     public UnityEvent noCollidersRemain;
 
     public List<Collider2D> detectionColliders;
-    BoxCollider2D collider;
+    Collider2D collider;
     private void Awake()
     {
         detectionColliders = new List<Collider2D>();
-        collider = this.GetComponent<BoxCollider2D>();
+        collider = this.GetComponent<Collider2D>();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

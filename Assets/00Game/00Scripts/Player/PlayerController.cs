@@ -362,11 +362,15 @@ public class PlayerController : MonoBehaviour
 
     public void Onattack(InputAction.CallbackContext context)
     {
-        if (context.started&&countdown.CanAttack)
+        if (context.started&&countdown.CanAttack&&touchingDirections.IsGrounded)
         {
 
             animator.SetTrigger(AnimationStrings.attackTrigger);
             countdown.CanAttack=false;
+        }else if (context.started && countdown.CanAirAttack)
+        {
+            animator.SetTrigger(AnimationStrings.attackTrigger);
+            countdown.CanAirAttack = false;
         }
     }
     public void OnSlide(InputAction.CallbackContext context)

@@ -16,7 +16,7 @@ public class rainPoint : MonoBehaviour
         Debug.Log(other.gameObject.name);
         if (other.CompareTag("Enemy") || other.CompareTag("Boss"))
         {
-            Debug.Log(other.gameObject.name);
+           
             enemiesInRange.Add(other.transform);
         }
     }

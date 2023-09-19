@@ -15,6 +15,8 @@ public class ProjectileLauncher : MonoBehaviour
     public GameObject spSkillPrefab;
     public Transform launchPoint3;
 
+    public GameObject diagonalPrefab;
+    public Transform diagonalPoint;
 
 
     // Start is called before the first frame update
@@ -26,6 +28,16 @@ public class ProjectileLauncher : MonoBehaviour
     public void FireProjectile()
     {
         GameObject projectile = Instantiate(projectilePrefab, launchPoint.transform.position, projectilePrefab.transform.rotation);
+        Vector3 origScale = projectile.transform.localScale;
+
+        projectile.transform.localScale = new Vector3(
+            origScale.x * transform.parent.localScale.x > 0 ? 1 : -1,
+            origScale.y,
+            origScale.z);
+    }
+    public void DiagonalProjectile()
+    {
+        GameObject projectile = Instantiate(diagonalPrefab, diagonalPoint.transform.position, diagonalPrefab.transform.rotation);
         Vector3 origScale = projectile.transform.localScale;
 
         projectile.transform.localScale = new Vector3(

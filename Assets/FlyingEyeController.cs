@@ -11,6 +11,8 @@ public class FlyingEyeController : MonoBehaviour
     public List<Transform> wayPoints;
     public Collider2D deathCollider;
 
+     DetectionRange detectionRange;
+
 
     Damageable damageable;
     Animator animator;
@@ -19,6 +21,26 @@ public class FlyingEyeController : MonoBehaviour
 
     Transform nextWayPoint;
     int wayPointNum = 0;
+
+  
+    private float shootTimer = 0f;
+    [SerializeField]
+    float airAttackCooldown = 1f;
+
+    [SerializeField]
+    private bool _canAirAttack = true;
+    public bool CanAirAttack
+    {
+        get
+        {
+            return _canAirAttack;
+        }
+        set
+        {
+            _canAirAttack = value;
+        }
+    }
+  
 
     private bool _hasTarget;
     public bool HasTarget
@@ -47,6 +69,7 @@ public class FlyingEyeController : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         rigi = GetComponent<Rigidbody2D>();
         damageable = GetComponent<Damageable>();
+        detectionRange = GetComponentInChildren<DetectionRange>();
     }
 
     // Start is called before the first frame update
@@ -59,7 +82,18 @@ public class FlyingEyeController : MonoBehaviour
     void Update()
     {
         HasTarget = biteDetectionZone.detectionColliders.Count > 0;
-
+        if (!CanAirAttack)
+        {
+             
+               shootTimer += Time.deltaTime;
+            if (shootTimer >= airAttackCooldown)
+            {
+                CanAirAttack = true;
+                shootTimer = 0f;
+            }
+        }
+        
+    
     }
     private void FixedUpdate()
     {
@@ -79,27 +113,47 @@ public class FlyingEyeController : MonoBehaviour
     }
     public void Flight()
     {
-        //Fly to next waypoint
-        Vector2 directionToWayponit = (nextWayPoint.position - transform.position).normalized;
-
-        //check if we have reached the waypoint already
-
-        float distance = Vector2.Distance(nextWayPoint.position, transform.position);
-
-        rigi.velocity = directionToWayponit * flightSpeed;
-
-        UpdateDirection();
-
-        if (distance <= waypointReachedDistance)
+        if (detectionRange.HasTarget)
         {
-            wayPointNum++;
-            if (wayPointNum >= wayPoints.Count)
+            if (CanAirAttack)
             {
-                wayPointNum = 0;
+                animator.SetTrigger(AnimationStrings.attackTrigger);
+                CanAirAttack = false;
             }
-            nextWayPoint = wayPoints[wayPointNum];
+           
+            Vector2 targetPosition = detectionRange.playerPosition; 
+
+            Vector2 directionToTarget = (targetPosition - (Vector2)transform.position).normalized;
+            rigi.velocity = directionToTarget * flightSpeed;
+
+          
+            UpdateDirection();
+        }
+        else
+        {
+            
+            Vector2 directionToWaypoint = (nextWayPoint.position - transform.position).normalized;
+
+            
+            float distance = Vector2.Distance(nextWayPoint.position, transform.position);
+
+            rigi.velocity = directionToWaypoint * flightSpeed;
+
+            
+            UpdateDirection();
+
+            if (distance <= waypointReachedDistance)
+            {
+                wayPointNum++;
+                if (wayPointNum >= wayPoints.Count)
+                {
+                    wayPointNum = 0;
+                }
+                nextWayPoint = wayPoints[wayPointNum];
+            }
         }
     }
+
 
     private void UpdateDirection()
     {

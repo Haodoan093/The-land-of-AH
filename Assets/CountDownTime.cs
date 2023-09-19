@@ -5,6 +5,7 @@ using UnityEngine;
 public class CountDownTime : MonoBehaviour
 {
     private float attackTimer = 0f;
+    private float airAttackTimer = 0f;
     private float fireBowTimer = 0f;
     private float rainOfArrowsTimer = 0f;
     private float splazeTimer = 0f;
@@ -13,11 +14,27 @@ public class CountDownTime : MonoBehaviour
     [SerializeField]
     float attackCooldown = 1f;
     [SerializeField]
+    float airAttackCooldown = 1f;
+    [SerializeField]
     float fireBowCooldown = 2f;
     [SerializeField]
     float rainOfArrowsCooldown = 5f;
     [SerializeField]
     float splazeCooldown = 15f;
+
+    [SerializeField]
+    private bool _canAirAttack = true;
+    public bool CanAirAttack
+    {
+        get
+        {
+            return _canAirAttack;
+        }
+        set
+        {
+            _canAirAttack = value;
+        }
+    }
 
     [SerializeField]
     private bool _canAttack = true;
@@ -91,9 +108,19 @@ public class CountDownTime : MonoBehaviour
                     attackTimer = 0f;
                 }
             }
+        // Countdown timer for AirAttack skill
+        if (!_canAirAttack)
+        {
+            airAttackTimer += Time.deltaTime;
+            if (airAttackTimer >= airAttackCooldown)
+            {
+                _canAirAttack = true;
+                airAttackTimer = 0f;
+            }
+        }
 
-            // Countdown timer for FireBow skill
-            if (!_canFireBow)
+        // Countdown timer for FireBow skill
+        if (!_canFireBow)
             {
                 fireBowTimer += Time.deltaTime;
                 if (fireBowTimer >= fireBowCooldown)
