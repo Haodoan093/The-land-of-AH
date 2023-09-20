@@ -26,7 +26,7 @@ public class DetectionRange : MonoBehaviour
 
             playerTransform = other.transform;
 
-            Debug.Log("Va cham voi " + playerTransform.position);
+           
         }
     }
 

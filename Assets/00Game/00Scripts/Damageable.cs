@@ -131,7 +131,7 @@ public class Damageable : MonoBehaviour
            
              if((damage - Armor) > 0)
             {
-                CharacterEvents.characterDamaged.Invoke(gameObject, damage-Armor);
+                CharacterEvents.characterDamaged.Invoke(gameObject, damage - Armor);
                 Health -= damage - Armor;
                 LockVelocity = true;
 

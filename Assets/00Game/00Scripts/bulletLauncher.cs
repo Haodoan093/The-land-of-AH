@@ -7,6 +7,7 @@ public class bulletLauncher : MonoBehaviour
     public GameObject projectilePrefab;
     public Transform launchPoint;
     public int quanlity=1;
+    public Vector2 ranPonits;
   
    
     // Start is called before the first frame update
@@ -28,8 +29,8 @@ public class bulletLauncher : MonoBehaviour
         {
             if(quanlity > 2) {
                 point = new Vector3(
-               point.x + Random.Range(-2f, 2f),
-               point.y + Random.Range(-1f, 1f),
+               point.x + Random.Range(-ranPonits.x, ranPonits.x),
+               point.y + Random.Range(-ranPonits.y, ranPonits.y),
                point.z);
             }
             GameObject projectile = Instantiate(projectilePrefab, point, Quaternion.identity);
