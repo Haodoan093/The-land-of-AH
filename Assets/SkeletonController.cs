@@ -15,7 +15,7 @@ public class SkeletonController : MonoBehaviour
     Animator animator;
     Damageable damageable;
     //atk
-    public DetectionRange rangeZone;
+    public DetectionRange detectionRange;
     public DetectionZone attackZone;
     public DetectionZone cliffDetection;
     public enum WalkalbeDirection
@@ -50,6 +50,23 @@ public class SkeletonController : MonoBehaviour
             }
             _walkDirection = value;
 
+        }
+    }
+    private float shootTimer = 0f;
+    [SerializeField]
+    float shootCooldown = 1f;
+
+    [SerializeField]
+    private bool _canShoot = true;
+    public bool CanShoot
+    {
+        get
+        {
+            return _canShoot;
+        }
+        set
+        {
+            _canShoot = value;
         }
     }
     private bool _hasTarget;
@@ -96,7 +113,7 @@ public class SkeletonController : MonoBehaviour
         touchingDirection = GetComponent<TouchingDirections>();
         animator = GetComponentInChildren<Animator>();
         damageable = GetComponent<Damageable>();
-        rangeZone = GetComponentInChildren<DetectionRange>();
+        detectionRange = GetComponentInChildren<DetectionRange>();
     }
 
 
@@ -115,16 +132,21 @@ public class SkeletonController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (touchingDirection.IsOnWall && touchingDirection.IsGrounded && !HasTarget)
+        if (touchingDirection.IsOnWall && touchingDirection.IsGrounded && !HasTarget && !detectionRange.HasTarget)
         {
             FlipDirection();
         }
         if (!damageable.LockVelocity)
         {
-            if (CanMove && rangeZone.HasTarget)
+            if (CanMove && detectionRange.HasTarget&&!HasTarget)
             {
+                if (CanShoot)
+                {
+                    animator.SetTrigger(AnimationStrings.shootTrigger);
+                    CanShoot = false;
+                }
 
-                Vector3 targetPosition = rangeZone.playerPosition;
+                Vector3 targetPosition = detectionRange.playerPosition;
 
 
                 Vector2 directionToTarget = (targetPosition - transform.position).normalized;
@@ -153,6 +175,16 @@ public class SkeletonController : MonoBehaviour
         if (AttackCooldown > 0)
         {
             AttackCooldown -= Time.deltaTime;
+        }
+        if (!CanShoot)
+        {
+
+            shootTimer += Time.deltaTime;
+            if (shootTimer >= shootCooldown)
+            {
+                CanShoot = true;
+                shootTimer = 0f;
+            }
         }
 
     }

@@ -15,7 +15,7 @@ public class GoblinController : MonoBehaviour
     Animator animator;
     Damageable damageable;
     //atk
-    public DetectionRange rangeZone;
+    public DetectionRange detectionRange;
     public DetectionZone attackZone;
     public DetectionZone cliffDetection;
     public enum WalkalbeDirection
@@ -52,6 +52,24 @@ public class GoblinController : MonoBehaviour
 
         }
     }
+    private float shootTimer = 0f;
+    [SerializeField]
+    float shootCooldown = 1f;
+
+    [SerializeField]
+    private bool _canShoot = true;
+    public bool CanShoot
+    {
+        get
+        {
+            return _canShoot;
+        }
+        set
+        {
+            _canShoot = value;
+        }
+    }
+
     private bool _hasTarget;
     public bool HasTarget
     {
@@ -96,7 +114,7 @@ public class GoblinController : MonoBehaviour
         touchingDirection = GetComponent<TouchingDirections>();
         animator = GetComponentInChildren<Animator>();
         damageable = GetComponent<Damageable>();
-        rangeZone = GetComponentInChildren<DetectionRange>();
+        detectionRange = GetComponentInChildren<DetectionRange>();
     }
 
 
@@ -115,16 +133,22 @@ public class GoblinController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (touchingDirection.IsOnWall && touchingDirection.IsGrounded && !HasTarget)
+        if (touchingDirection.IsOnWall && touchingDirection.IsGrounded && !HasTarget && !detectionRange.HasTarget)
         {
             FlipDirection();
         }
         if (!damageable.LockVelocity)
         {
-            if (CanMove && rangeZone.HasTarget)
+            if (CanMove && detectionRange.HasTarget && !HasTarget)
             {
-              
-                Vector3 targetPosition = rangeZone.playerPosition;
+                if (CanShoot)
+                {
+                    animator.SetTrigger(AnimationStrings.shootTrigger);
+                    CanShoot = false;
+                }
+
+
+                Vector3 targetPosition = detectionRange.playerPosition;
 
              
                 Vector2 directionToTarget = (targetPosition - transform.position).normalized;
@@ -154,7 +178,17 @@ public class GoblinController : MonoBehaviour
         {
             AttackCooldown -= Time.deltaTime;
         }
-       
+        if (!CanShoot)
+        {
+
+            shootTimer += Time.deltaTime;
+            if (shootTimer >= shootCooldown)
+            {
+                CanShoot = true;
+                shootTimer = 0f;
+            }
+        }
+
     }
     public void OnHit(float dmg, Vector2 knockBack)
     {

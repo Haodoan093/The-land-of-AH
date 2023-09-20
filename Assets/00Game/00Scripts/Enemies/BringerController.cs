@@ -15,7 +15,7 @@ public class BringerController : MonoBehaviour
     Animator animator;
      Damageable damageable;
     //atk
-    public DetectionRange rangeZone;
+    public DetectionRange detectionRange;
     public DetectionZone attackZone;
     public DetectionZone cliffDetection;
     public enum WalkalbeDirection
@@ -106,7 +106,7 @@ public class BringerController : MonoBehaviour
         touchingDirection = GetComponent<TouchingDirections>();
         animator = GetComponentInChildren<Animator>();
         damageable = GetComponent<Damageable>();
-        rangeZone = GetComponentInChildren<DetectionRange>();
+        detectionRange = GetComponentInChildren<DetectionRange>();
     }
 
 
@@ -125,16 +125,16 @@ public class BringerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (touchingDirection.IsOnWall && touchingDirection.IsGrounded && !HasTarget)
+        if (touchingDirection.IsOnWall && touchingDirection.IsGrounded && !HasTarget && !detectionRange.HasTarget)
         {
             FlipDirection();
         }
         if (!damageable.LockVelocity)
         {
-            if (CanMove && rangeZone.HasTarget)
+            if (CanMove && detectionRange.HasTarget)
             {
                 // Lấy vị trí của mục tiêu từ rangeZone
-                Vector3 targetPosition = rangeZone.playerPosition;
+                Vector3 targetPosition = detectionRange.playerPosition;
 
                 // Tính toán hướng để đuổi theo mục tiêu
                 Vector2 directionToTarget = (targetPosition - transform.position).normalized;
