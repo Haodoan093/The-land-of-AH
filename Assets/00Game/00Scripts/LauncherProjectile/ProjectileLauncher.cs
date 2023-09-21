@@ -80,9 +80,5 @@ public class ProjectileLauncher : MonoBehaviour
             origScale.y,
             origScale.z);
     }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }

@@ -1,49 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
+﻿using UnityEngine;
 
 public class SparkController : MonoBehaviour
 {
-    public float damage = 10;
-    
+  
     Animator animator;
-    public float timer = 2f;
-    public float timerFire = 0f;
-   
-
-
+    public float timerMax = 2f;
+     float timer = 2f;
+    public float timerFireMax = 0f;
+     float timerFire = 1f;
+    private bool isDisabled = false;
 
     private void Awake()
     {
-      
         animator = this.GetComponentInChildren<Animator>();
-
     }
-    // Start is called before the first frame update
-    void Start()
+
+   
+
+    void OnDisable()
     {
-       
+        // Khi đối tượng bị tắt, đánh dấu nó đã bị tắt.
+        isDisabled = true;
+        timer = timerMax;
+        timerFire=timerFireMax;
     }
 
-    // Update is called once per frame
     void Update()
     {
-
         timer -= Time.deltaTime;
         timerFire -= Time.deltaTime;
         if (timer < 0)
         {
-            this.gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
         if (timerFire < 0)
         {
             animator.SetTrigger(AnimationStrings.hitTrigger);
         }
-
-
     }
- 
-
 }

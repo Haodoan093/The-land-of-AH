@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BossBase : MonoBehaviour
+public abstract class BossBase : Singleton<BossBase>
 {
     protected Rigidbody2D rigi;
     protected TouchingDirections touchingDirection;

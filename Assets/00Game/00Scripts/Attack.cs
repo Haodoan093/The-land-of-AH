@@ -1,9 +1,10 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
+   
     public int attackDamage = 10;
     Damageable damageable;
     public Vector2 knockBack = Vector2.zero;

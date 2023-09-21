@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class EnemyBase : MonoBehaviour
+public abstract class EnemyBase : Singleton<EnemyBase>
 {
     protected Rigidbody2D rigi;
     protected TouchingDirections touchingDirection;
