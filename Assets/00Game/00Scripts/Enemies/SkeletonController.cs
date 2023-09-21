@@ -111,9 +111,14 @@ public class SkeletonController : MonoBehaviour
 
         rigi = GetComponent<Rigidbody2D>();
         touchingDirection = GetComponent<TouchingDirections>();
-        animator = GetComponentInChildren<Animator>();
+     
         damageable = GetComponent<Damageable>();
+      
+    }
+    private void Start()
+    {
         detectionRange = GetComponentInChildren<DetectionRange>();
+        animator = GetComponentInChildren<Animator>();
     }
 
 

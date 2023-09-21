@@ -20,13 +20,16 @@ public class butlletController : MonoBehaviour
     private void Awake()
     {
         rigi = this.GetComponent<Rigidbody2D>();
-        animator = this.GetComponentInChildren<Animator>();
-        targetPoint = this.GetComponentInParent<DetectionRange>();
+     
+      
 
     }
+   
     // Start is called before the first frame update
     void Start()
     {
+        animator = this.GetComponentInChildren<Animator>();
+        targetPoint = this.GetComponentInParent<DetectionRange>();
         Vector2 point = targetPoint.playerPosition;
         Vector2 directionToTarget = (point - (Vector2)transform.position).normalized;
         rigi.velocity = directionToTarget * bulletSpeed;

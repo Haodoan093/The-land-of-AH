@@ -7,24 +7,28 @@ public class MagicSkill : MonoBehaviour
 
 
     public GameObject projectilePrefab;
-  
-    // Start is called before the first frame update
-     DetectionRange targetPoint;
+    public Transform launchPoint;
+    public int quanlity = 3;
+    public Vector2 ranPonits;
 
-    private void Awake()
+
+    // Start is called before the first frame update
+    DetectionRange targetPoint;
+
+    private void Start()
     {
-        targetPoint=this.GetComponent<DetectionRange>();
+        targetPoint = this.GetComponent<DetectionRange>();
     }
 
     public void FireProjectile()
     {
       
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < quanlity; i++) {
             Vector3 point = targetPoint.playerPosition;
 
             point = new Vector3(
                 point.x + Random.Range(-4,4),
-                point.y+0.2f,
+                launchPoint.transform.position.y,
                 point.z);
             GameObject projectile = Instantiate(projectilePrefab, point, projectilePrefab.transform.rotation);
            

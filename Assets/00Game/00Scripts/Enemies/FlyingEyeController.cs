@@ -66,15 +66,17 @@ public class FlyingEyeController : MonoBehaviour
 
     private void Awake()
     {
-        animator = GetComponentInChildren<Animator>();
+      
         rigi = GetComponent<Rigidbody2D>();
         damageable = GetComponent<Damageable>();
-        detectionRange = GetComponentInChildren<DetectionRange>();
+       
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        animator = GetComponentInChildren<Animator>();
+        detectionRange = GetComponentInChildren<DetectionRange>();
         nextWayPoint = wayPoints[wayPointNum];
     }
 

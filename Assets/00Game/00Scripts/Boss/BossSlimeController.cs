@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
 [RequireComponent(typeof(Rigidbody2D), typeof(TouchingDirections), typeof(Damageable))]
-public class GoblinController : MonoBehaviour
+public class BossSlimeController : MonoBehaviour
 {
     public float walkAcceleration = 3f;
     public float maxSpeed = 3f;
@@ -69,7 +69,6 @@ public class GoblinController : MonoBehaviour
             _canShoot = value;
         }
     }
-
     private bool _hasTarget;
     public bool HasTarget
     {
@@ -103,7 +102,7 @@ public class GoblinController : MonoBehaviour
             animator.SetFloat(AnimationStrings.attackCooldown, MathF.Max(value, 0));
         }
     }
- 
+
 
 
 
@@ -112,9 +111,14 @@ public class GoblinController : MonoBehaviour
 
         rigi = GetComponent<Rigidbody2D>();
         touchingDirection = GetComponent<TouchingDirections>();
-        animator = GetComponentInChildren<Animator>();
+      
         damageable = GetComponent<Damageable>();
+       
+    }
+    private void Start()
+    {
         detectionRange = GetComponentInChildren<DetectionRange>();
+        animator = GetComponentInChildren<Animator>();
     }
 
 
@@ -147,16 +151,15 @@ public class GoblinController : MonoBehaviour
                     CanShoot = false;
                 }
 
-
                 Vector3 targetPosition = detectionRange.playerPosition;
 
-             
+
                 Vector2 directionToTarget = (targetPosition - transform.position).normalized;
 
-              
+
                 WalkDirection = (directionToTarget.x > 0) ? WalkalbeDirection.Right : WalkalbeDirection.Left;
 
-              
+
                 rigi.velocity = new Vector2(maxSpeed * directionToTarget.x, rigi.velocity.y);
             }
             else if (CanMove && !HasTarget)
@@ -202,9 +205,7 @@ public class GoblinController : MonoBehaviour
             FlipDirection();
         }
     }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log(collision.gameObject.name);
-    }
 }
+
+
 

@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,7 +6,7 @@ using UnityEngine;
 
 
 [RequireComponent(typeof(Rigidbody2D), typeof(TouchingDirections), typeof(Damageable))]
-public class SlimeController : MonoBehaviour
+public class FrostGuardianController : MonoBehaviour
 {
     public float walkAcceleration = 3f;
     public float maxSpeed = 3f;
@@ -113,11 +114,13 @@ public class SlimeController : MonoBehaviour
         touchingDirection = GetComponent<TouchingDirections>();
         animator = GetComponentInChildren<Animator>();
         damageable = GetComponent<Damageable>();
-     
+       
     }
     private void Start()
     {
         detectionRange = GetComponentInChildren<DetectionRange>();
+        animator.SetBool(AnimationStrings.intro, true);
+       
     }
 
 

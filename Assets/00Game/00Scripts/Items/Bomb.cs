@@ -19,13 +19,14 @@ public class Bomb : MonoBehaviour
     private void Awake()
     {
         rigi = this.GetComponent<Rigidbody2D>();
-        animator = this.GetComponentInChildren<Animator>();
+       
 
     }
     // Start is called before the first frame update
     void Start()
     {
         rigi.velocity = new Vector2(moveSpeed.x * transform.localScale.x, moveSpeed.y);
+        animator = this.GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame

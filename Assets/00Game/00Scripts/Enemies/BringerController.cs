@@ -106,9 +106,13 @@ public class BringerController : MonoBehaviour
         touchingDirection = GetComponent<TouchingDirections>();
         animator = GetComponentInChildren<Animator>();
         damageable = GetComponent<Damageable>();
-        detectionRange = GetComponentInChildren<DetectionRange>();
+      
     }
 
+    private void Start()
+    {
+        detectionRange = GetComponentInChildren<DetectionRange>();
+    }
 
     private void FlipDirection()
     {

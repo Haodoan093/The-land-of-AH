@@ -8,11 +8,11 @@ public class HealthPickup : MonoBehaviour
     public float healthrestore = 20;
 
     public Vector3 spinRotationSpeed = new Vector3(0, 180, 0);
-    public AudioSource pickupSource;
+    //public AudioSource pickupSource;
 
     private void Awake()
     {
-        pickupSource = GetComponent<AudioSource>();
+      //  pickupSource = GetComponent<AudioSource>();
     }
     // Start is called before the first frame update
     void Start()
@@ -32,11 +32,11 @@ public class HealthPickup : MonoBehaviour
             if (wasHeald)//neu da mat mau va nhat binh mau
             {
                 this.gameObject.SetActive(false);
-                if (pickupSource)
-                {
-                    // AudioSource.PlayClipAtPoint(pickupSource.clip, gameObject.transform.position, pickupSource.volume);
+                //if (pickupSource)
+                //{
+                //    // AudioSource.PlayClipAtPoint(pickupSource.clip, gameObject.transform.position, pickupSource.volume);
 
-                }
+                //}
             }
         }
 
