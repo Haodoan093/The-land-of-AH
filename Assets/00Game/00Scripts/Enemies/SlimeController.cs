@@ -1,13 +1,12 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
 [RequireComponent(typeof(Rigidbody2D), typeof(TouchingDirections), typeof(Damageable))]
-public class BringerController : EnemyBase
+public class SlimeController : EnemyBase
 {
-
 
     protected override void Awake()
     {
@@ -54,6 +53,4 @@ public class BringerController : EnemyBase
     }
 
 }
-
-
 

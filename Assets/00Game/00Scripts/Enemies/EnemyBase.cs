@@ -1,35 +1,45 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-
-[RequireComponent(typeof(Rigidbody2D), typeof(TouchingDirections), typeof(Damageable))]
-public class SlimeController : MonoBehaviour
+public abstract class EnemyBase : MonoBehaviour
 {
+    protected Rigidbody2D rigi;
+    protected TouchingDirections touchingDirection;
+    protected Animator animator;
+    protected Damageable damageable;
+    [SerializeField]
+    protected DetectionRange detectionRange;
+    [SerializeField]
+    protected DetectionZone attackZone;
+    [SerializeField]
+    protected DetectionZone cliffDetection;
+
     public float walkAcceleration = 3f;
     public float maxSpeed = 3f;
     public float walkStopRate = 0.05f;
-    Rigidbody2D rigi;
-    TouchingDirections touchingDirection;
-    Animator animator;
-    Damageable damageable;
-    //atk
-    public DetectionRange detectionRange;
-    public DetectionZone attackZone;
-    public DetectionZone cliffDetection;
+    private Vector2 walkDirectionVector = Vector2.right;
+   
+    private float shootTimer = 0f;
+    [SerializeField]
+     protected float shootCooldown = 1f;
+    [SerializeField]
+    private bool _canShoot = true;
+    private bool _hasTarget;
+
+
+
+    private WalkalbeDirection _walkDirection;
     public enum WalkalbeDirection
     {
         Right,
         Left
     }
-    private Vector2 walkDirectionVector = Vector2.right;
 
-
-    private WalkalbeDirection _walkDirection;
     public WalkalbeDirection WalkDirection
     {
-        get { return _walkDirection; }
+        get
+        { 
+            return _walkDirection;
+        }
         set
         {
             if (_walkDirection != value)
@@ -45,96 +55,61 @@ public class SlimeController : MonoBehaviour
                 {
                     walkDirectionVector = Vector2.left;
                 }
-
-
             }
             _walkDirection = value;
-
         }
     }
-    private float shootTimer = 0f;
-    [SerializeField]
-    float shootCooldown = 1f;
 
-    [SerializeField]
-    private bool _canShoot = true;
     public bool CanShoot
     {
-        get
+        get 
         {
             return _canShoot;
         }
-        set
-        {
-            _canShoot = value;
+        set 
+        { 
+            _canShoot = value; 
         }
     }
-    private bool _hasTarget;
+
     public bool HasTarget
     {
         get
-        {
+        { 
             return _hasTarget;
         }
-        private set
-        {
-            _hasTarget = value;
+        protected set 
+        { 
+            _hasTarget = value; 
             animator.SetBool(AnimationStrings.hasTarget, value);
         }
     }
 
     public bool CanMove
     {
-        get
-        {
-            return animator.GetBool(AnimationStrings.canMove);
-        }
-
+        get { return animator.GetBool(AnimationStrings.canMove); }
     }
+
     public float AttackCooldown
     {
-        get
-        {
-            return animator.GetFloat(AnimationStrings.attackCooldown);
-        }
-        private set
-        {
-            animator.SetFloat(AnimationStrings.attackCooldown, MathF.Max(value, 0));
-        }
+        get { return animator.GetFloat(AnimationStrings.attackCooldown); }
+        private set { animator.SetFloat(AnimationStrings.attackCooldown, Mathf.Max(value, 0)); }
     }
 
-
-
-
-    private void Awake()
+    protected virtual void Awake()
     {
-
         rigi = GetComponent<Rigidbody2D>();
         touchingDirection = GetComponent<TouchingDirections>();
-        animator = GetComponentInChildren<Animator>();
         damageable = GetComponent<Damageable>();
-     
     }
-    private void Start()
+
+    protected virtual void Start()
     {
         detectionRange = GetComponentInChildren<DetectionRange>();
+        animator = GetComponentInChildren<Animator>();
     }
 
-
-    private void FlipDirection()
-    {
-
-        if (WalkDirection == WalkalbeDirection.Right)
-        {
-            WalkDirection = WalkalbeDirection.Left;
-        }
-        else if (WalkDirection == WalkalbeDirection.Left)
-        {
-            WalkDirection = WalkalbeDirection.Right;
-        }
-
-    }
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (touchingDirection.IsOnWall && touchingDirection.IsGrounded && !HasTarget && !detectionRange.HasTarget)
         {
@@ -142,22 +117,18 @@ public class SlimeController : MonoBehaviour
         }
         if (!damageable.LockVelocity)
         {
-            if (CanMove && detectionRange.HasTarget && !HasTarget)
+            if (CanMove && detectionRange.HasTarget)
             {
-                if (CanShoot)
+                if (CanShoot && GameManager.Instant.Player.touchingDirections.IsGrounded)
                 {
                     animator.SetTrigger(AnimationStrings.shootTrigger);
                     CanShoot = false;
                 }
 
                 Vector3 targetPosition = detectionRange.playerPosition;
-
-
                 Vector2 directionToTarget = (targetPosition - transform.position).normalized;
 
-
                 WalkDirection = (directionToTarget.x > 0) ? WalkalbeDirection.Right : WalkalbeDirection.Left;
-
 
                 rigi.velocity = new Vector2(maxSpeed * directionToTarget.x, rigi.velocity.y);
             }
@@ -172,17 +143,16 @@ public class SlimeController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    private void Update()
+    protected virtual void Update()
     {
         HasTarget = attackZone.detectionColliders.Count > 0;
         if (AttackCooldown > 0)
         {
             AttackCooldown -= Time.deltaTime;
         }
+
         if (!CanShoot)
         {
-
             shootTimer += Time.deltaTime;
             if (shootTimer >= shootCooldown)
             {
@@ -190,21 +160,20 @@ public class SlimeController : MonoBehaviour
                 shootTimer = 0f;
             }
         }
+    }
 
-    }
-    public void OnHit(float dmg, Vector2 knockBack)
+    protected void FlipDirection()
     {
-        // LockVelocity = true;
-        rigi.velocity = new Vector2(knockBack.x, rigi.velocity.y + knockBack.y);
-    }
-    public void OnCliffDetection()
-    {
-        if (touchingDirection.IsGrounded)
+        if (WalkDirection == WalkalbeDirection.Right)
         {
-            FlipDirection();
+            WalkDirection = WalkalbeDirection.Left;
+        }
+        else if (WalkDirection == WalkalbeDirection.Left)
+        {
+            WalkDirection = WalkalbeDirection.Right;
         }
     }
+
+    public abstract void OnHit(float dmg, Vector2 knockBack);
+    public abstract void OnCliffDetection();
 }
-
-
-
