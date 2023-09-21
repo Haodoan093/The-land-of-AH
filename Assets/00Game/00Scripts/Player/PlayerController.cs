@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rigi;
     Vector2 moveInput;
     Animator animator;
-    TouchingDirections touchingDirections;
+    public TouchingDirections touchingDirections;
     Damageable damageable;
     CountDownTime countdown;
 

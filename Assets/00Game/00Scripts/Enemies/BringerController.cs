@@ -52,6 +52,23 @@ public class BringerController : MonoBehaviour
 
         }
     }
+    private float shootTimer = 0f;
+    [SerializeField]
+    float shootCooldown = 1f;
+
+    [SerializeField]
+    private bool _canShoot = true;
+    public bool CanShoot
+    {
+        get
+        {
+            return _canShoot;
+        }
+        set
+        {
+            _canShoot = value;
+        }
+    }
     private bool _hasTarget;
     public bool HasTarget
     {
@@ -85,17 +102,7 @@ public class BringerController : MonoBehaviour
             animator.SetFloat(AnimationStrings.attackCooldown, MathF.Max(value, 0));
         }
     }
-    public float SpellCooldown
-    {
-        get
-        {
-            return animator.GetFloat(AnimationStrings.spellCooldown);
-        }
-        private set
-        {
-            animator.SetFloat(AnimationStrings.spellCooldown, MathF.Max(value, 0));
-        }
-    }
+    
 
 
 
@@ -104,7 +111,7 @@ public class BringerController : MonoBehaviour
 
         rigi = GetComponent<Rigidbody2D>();
         touchingDirection = GetComponent<TouchingDirections>();
-        animator = GetComponentInChildren<Animator>();
+      
         damageable = GetComponent<Damageable>();
       
     }
@@ -112,6 +119,7 @@ public class BringerController : MonoBehaviour
     private void Start()
     {
         detectionRange = GetComponentInChildren<DetectionRange>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void FlipDirection()
@@ -137,6 +145,12 @@ public class BringerController : MonoBehaviour
         {
             if (CanMove && detectionRange.HasTarget)
             {
+                if (CanShoot && GameManager.Instant.Player.touchingDirections.IsGrounded)
+                {
+                    animator.SetTrigger(AnimationStrings.castTrigger);
+                    CanShoot = false;
+                }
+
                 // Lấy vị trí của mục tiêu từ rangeZone
                 Vector3 targetPosition = detectionRange.playerPosition;
 
@@ -168,13 +182,16 @@ public class BringerController : MonoBehaviour
         {
             AttackCooldown -= Time.deltaTime;
         }
-        if (SpellCooldown > 0)
+     
+        if (!CanShoot)
         {
-            SpellCooldown -= Time.deltaTime;
-        }
-        else
-        {
-            SpellCooldown = 5;
+
+            shootTimer += Time.deltaTime;
+            if (shootTimer >= shootCooldown)
+            {
+                CanShoot = true;
+                shootTimer = 0f;
+            }
         }
     }
     public void OnHit(float dmg, Vector2 knockBack)

@@ -7,7 +7,7 @@ public class MagicSkill : MonoBehaviour
 
 
     public GameObject projectilePrefab;
-    public Transform launchPoint;
+   
     public int quanlity = 3;
     public Vector2 ranPonits;
 
@@ -28,7 +28,7 @@ public class MagicSkill : MonoBehaviour
 
             point = new Vector3(
                 point.x + Random.Range(-4,4),
-                launchPoint.transform.position.y,
+                point.y+0.2f,
                 point.z);
             GameObject projectile = Instantiate(projectilePrefab, point, projectilePrefab.transform.rotation);
            

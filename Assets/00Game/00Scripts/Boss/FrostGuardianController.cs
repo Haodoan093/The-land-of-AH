@@ -147,7 +147,7 @@ public class FrostGuardianController : MonoBehaviour
         {
             if (CanMove && detectionRange.HasTarget && !HasTarget)
             {
-                if (CanShoot)
+                if (CanShoot&&GameManager.Instant.Player.touchingDirections.IsGrounded)
                 {
                     animator.SetTrigger(AnimationStrings.shootTrigger);
                     CanShoot = false;

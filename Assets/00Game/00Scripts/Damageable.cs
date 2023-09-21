@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Damageable : MonoBehaviour
+public class Damageable : MonoBehaviour,IGetHit
 {
     public UnityEvent<float, Vector2> damageableHit;
     public UnityEvent damageableDeath;

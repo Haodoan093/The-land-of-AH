@@ -30,5 +30,6 @@ public class AnimationStrings : MonoBehaviour
     internal static string spellCooldown="spellCooldown";
     internal static string slide="slide";
     internal static string shootTrigger="shoot";
+    internal static string castTrigger = "cast";
     internal static string intro="intro";
 }
