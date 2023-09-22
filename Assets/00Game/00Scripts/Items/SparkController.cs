@@ -1,41 +1,42 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
-public class SparkController : MonoBehaviour
+public class SparkController : ProjectileBase
 {
   
-    Animator animator;
-    public float timerMax = 2f;
-     float timer = 2f;
-    public float timerFireMax = 0f;
-     float timerFire = 1f;
-    private bool isDisabled = false;
-
-    private void Awake()
-    {
-        animator = this.GetComponentInChildren<Animator>();
-    }
-
    
+   
+    public float timerFire= 0f;
 
-    void OnDisable()
+
+
+    protected override IEnumerator autoDestruct()
     {
-        // Khi đối tượng bị tắt, đánh dấu nó đã bị tắt.
-        isDisabled = true;
-        timer = timerMax;
-        timerFire=timerFireMax;
+        yield return new WaitForSeconds(timerFire);
+        animator.SetTrigger(AnimationStrings.hitTrigger);
+        base.autoDestruct();
+
     }
 
-    void Update()
+    protected override void Awake()
     {
-        timer -= Time.deltaTime;
-        timerFire -= Time.deltaTime;
-        if (timer < 0)
-        {
-            gameObject.SetActive(false);
-        }
-        if (timerFire < 0)
-        {
-            animator.SetTrigger(AnimationStrings.hitTrigger);
-        }
+        base.Awake();
+
     }
+    protected override void Start()
+    {
+    }
+    protected override void OnDisable()
+    {
+
+      
+        if (rotineAutoDestruct != null)
+            StopCoroutine(rotineAutoDestruct);
+    }
+    protected override void OnEnable()
+    {
+        rotineAutoDestruct = StartCoroutine(autoDestruct());
+    }
+
+
 }

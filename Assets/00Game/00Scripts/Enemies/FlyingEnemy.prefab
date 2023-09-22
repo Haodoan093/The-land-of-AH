@@ -429,10 +429,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 642240d91c94418449b7ffd9bd41f2f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 276265469229466037, guid: cb6ef01a6a5aa8145b666e5d4c185644, type: 3}
+  projectilePrefab: {fileID: 5708319994613098627, guid: cb6ef01a6a5aa8145b666e5d4c185644, type: 3}
   launchPoint: {fileID: 2959483626950083277}
-  quanlity: 3
-  ranPonits: {x: 0, y: 0}
+  bulletContainer: {fileID: 0}
+  quantity: 1
+  randomPoints: {x: 0, y: 0}
 --- !u!1 &4431639448582840879
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1608826497769020508}
   - component: {fileID: 5818661391806127418}
   - component: {fileID: 370224325842931988}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Sword_Skeleton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,7 +112,7 @@ MonoBehaviour:
   damage: 8
   moveSpeed: {x: 5, y: 0}
   knockBack: {x: 0, y: 0}
-  timer: 2
+  _lifeTime: 2
 --- !u!1 &4994139742952563132
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 9159225707872162270}
   - component: {fileID: 4907955559539512256}
   - component: {fileID: 7789064494778809055}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: model
   m_TagString: Untagged
   m_Icon: {fileID: 0}

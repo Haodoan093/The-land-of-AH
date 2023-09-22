@@ -4,18 +4,28 @@ using UnityEngine;
 
 public class bulletLauncher : ProjectileLauncherBase
 {
-    private ObjectPooling objectPooling; // Tham chiếu đến lớp ObjectPooling
+    private ObjectPooling objectPooling;
 
     protected override void Start()
     {
         base.Start();
-
-        // Lấy tham chiếu đến lớp ObjectPooling
         objectPooling = ObjectPooling.Instant;
     }
 
     public override void LaunchProjectiles()
     {
+        if (projectilePrefab == null)
+        {
+            Debug.LogError("Projectile Prefab is not set in the inspector.");
+            return;
+        }
+
+        if (launchPoint == null)
+        {
+            Debug.LogError("Launch Point is not set in the inspector.");
+            return;
+        }
+
         Vector3 point = launchPoint.transform.position;
 
         for (int i = 0; i < quantity; i++)
@@ -28,25 +38,22 @@ public class bulletLauncher : ProjectileLauncherBase
                     point.z);
             }
 
-            // Sử dụng ObjectPooling để lấy một viên đạn từ pool
-            GameObject projectile = objectPooling.GetObj(projectilePrefab);
+            ProjectileBase projectile = objectPooling.Getcomp<ProjectileBase>(projectilePrefab);
+            if (projectile != null)
+            {
+                projectile.Init(transform.parent.localScale);
+                projectile.gameObject.SetActive(true);
+                projectile.transform.position = point;
+                projectile.transform.rotation = Quaternion.identity;
 
-            // Đặt viên đạn thành active để nó hiển thị
-            projectile.SetActive(true);
+                Vector3 origScale = projectile.transform.localScale;
+                projectile.transform.localScale = new Vector3(
+                    origScale.x * transform.parent.localScale.x > 0 ? 1 : -1,
+                    origScale.y,
+                    origScale.z);
 
-            // Đặt vị trí và xoay viên đạn
-            projectile.transform.position = point;
-            projectile.transform.rotation = Quaternion.identity;
-
-            Vector3 origScale = projectile.transform.localScale;
-            projectile.transform.localScale = new Vector3(
-                origScale.x * transform.parent.localScale.x > 0 ? 1 : -1,
-                origScale.y,
-                origScale.z);
-
-            // Đặt cha của viên đạn là bulletContainer
-            projectile.transform.parent = bulletContainer;
+                projectile.transform.parent = bulletContainer;
+            }
         }
     }
 }
-

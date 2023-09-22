@@ -8,29 +8,61 @@ public abstract class ProjectileBase : Singleton<ProjectileBase>
     public float damage = 10;
     public Vector2 moveSpeed = new Vector2(3f, 0);
     public Vector2 knockBack = Vector2.zero;
-    public float timer = 2f;
+    [SerializeField]
+    protected float _lifeTime = 2f;
     protected Animator animator;
     protected Rigidbody2D rigi;
-
+    protected Coroutine rotineAutoDestruct;
+    protected Vector3 localScaleX = Vector3.zero;
     protected virtual void Awake()
     {
         rigi = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
     }
+    public void Init(Vector3 local)
+    {
+        localScaleX= local;
+
+
+    }
+    protected virtual IEnumerator autoDestruct()
+    {
+        yield return new WaitForSeconds(_lifeTime);
+        this.gameObject.SetActive(false);
+
+    }
+    protected virtual void OnDisable()
+    {
+      
+        rigi.velocity = Vector2.zero;
+        if (rotineAutoDestruct != null)
+            StopCoroutine(rotineAutoDestruct);
+    }
+
+    protected virtual void ResetProjectile()
+    {
+        // Reset any necessary values here
+     
+        rigi.velocity = new Vector2(moveSpeed.x * localScaleX.x, moveSpeed.y);
+        // Reset any other variables as needed
+        Debug.Log(transform.localScale.x);
+
+    }
+
+    protected virtual void OnEnable()
+    {
+       
+        ResetProjectile();
+
+        rotineAutoDestruct = StartCoroutine(autoDestruct());
+    }
+
 
     protected virtual void Start()
     {
-        rigi.velocity = new Vector2(moveSpeed.x * transform.localScale.x, moveSpeed.y);
+        rigi.velocity = new Vector2(moveSpeed.x * localScaleX.x, moveSpeed.y);
     }
 
-    protected virtual void Update()
-    {
-        timer -= Time.deltaTime;
-        if (timer < 0)
-        {
-            gameObject.SetActive(false);
-        }
-    }
     protected virtual void HitTarget(Collider2D collision)
     {
         if (collision.CompareTag("Ground"))
@@ -47,7 +79,7 @@ public abstract class ProjectileBase : Singleton<ProjectileBase>
             rigi.velocity = Vector2.zero;
             if (gotHit)
             {
-                Debug.Log(collision.name + " hit for " + damage);
+               // Debug.Log(collision.name + " hit for " + damage);
             }
             animator.SetTrigger(AnimationStrings.hitTrigger);
         }

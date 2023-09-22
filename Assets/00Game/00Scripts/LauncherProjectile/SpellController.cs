@@ -2,26 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpellController : MonoBehaviour
+
+public class SpellController : ProjectileBase
 {
-    public float _timer = 5f;
-    void Start()
+    protected override void Awake()
     {
-        
+        base.Awake();
+       
+    }
+    protected override void Start()
+    {
+      
+    }
+    protected override void OnDisable()
+    {
+
+      
+        if (rotineAutoDestruct != null)
+            StopCoroutine(rotineAutoDestruct);
+    }
+    protected override void OnEnable()
+    {
+        rotineAutoDestruct = StartCoroutine(autoDestruct());
     }
 
-    // Update is called once per frame
-    void Update()
-    { 
-        if (_timer > 0)
-        {
-            _timer -= Time.deltaTime;
-        }
-        else
-        {
-            this.gameObject.SetActive(false);
-        }
-        
-    }
+
 
 }

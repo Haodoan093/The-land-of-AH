@@ -372,12 +372,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9520b23c2cc23849b1dc2b2a6e7b0df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkAcceleration: 3
-  maxSpeed: 3
-  walkStopRate: 0.05
   detectionRange: {fileID: 5479402280183673137}
   attackZone: {fileID: 4808068787595023548}
   cliffDetection: {fileID: 5269905989420788140}
+  walkAcceleration: 3
+  maxSpeed: 3
+  walkStopRate: 0.05
   shootCooldown: 2
   _canShoot: 1
 --- !u!70 &8513092275699216940
@@ -535,7 +535,7 @@ GameObject:
   - component: {fileID: 5479402280183673137}
   - component: {fileID: 5986301546328614464}
   - component: {fileID: 4224400059921592997}
-  - component: {fileID: 5761160531060999330}
+  - component: {fileID: 8649597874809977387}
   m_Layer: 13
   m_Name: model
   m_TagString: Untagged
@@ -704,7 +704,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 20.557121, y: 9.495944}
   m_EdgeRadius: 0
---- !u!114 &5761160531060999330
+--- !u!114 &8649597874809977387
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -713,10 +713,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7243318566937680608}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 642240d91c94418449b7ffd9bd41f2f9, type: 3}
+  m_Script: {fileID: 11500000, guid: 2c622ee85b06fc54299fb85575c18f6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 2165653623396629753, guid: ee29f142fd189de45b8876cee29fb27d, type: 3}
-  launchPoint: {fileID: 6990332804657979546}
-  quanlity: 5
-  ranPonits: {x: 7, y: 0}
+  projectilePrefab: {fileID: 0}
+  launchPoint: {fileID: 0}
+  bulletContainer: {fileID: 0}
+  quantity: 1
+  randomPoints: {x: 0, y: 0}
+  yPos: 0.2

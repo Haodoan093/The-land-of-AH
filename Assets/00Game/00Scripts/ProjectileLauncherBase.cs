@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class ProjectileLauncherBase : MonoBehaviour
 {
-    public GameObject projectilePrefab;
+    public ProjectileBase projectilePrefab;
     public Transform launchPoint;
     public Transform bulletContainer;
     [SerializeField]

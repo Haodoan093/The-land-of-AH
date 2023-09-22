@@ -183,12 +183,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d0f7f06512596d4fa024b21c8f615e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  detectionRange: {fileID: 4128408831765017278}
+  attackZone: {fileID: 2323595934691067646}
+  cliffDetection: {fileID: 976065705457096502}
   walkAcceleration: 3
   maxSpeed: 3
   walkStopRate: 0.05
-  detectionRange: {fileID: 0}
-  attackZone: {fileID: 2323595934691067646}
-  cliffDetection: {fileID: 976065705457096502}
   shootCooldown: 2
   _canShoot: 1
 --- !u!1 &3718067790480613188
@@ -619,10 +619,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 642240d91c94418449b7ffd9bd41f2f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 4427923713095610881, guid: 1a21e6bac860af64081563a818df1763, type: 3}
+  projectilePrefab: {fileID: 370224325842931988, guid: 1a21e6bac860af64081563a818df1763, type: 3}
   launchPoint: {fileID: 794659954804352995}
-  quanlity: 2
-  ranPonits: {x: 0, y: 0}
+  bulletContainer: {fileID: 0}
+  quantity: 1
+  randomPoints: {x: 0, y: 0}
 --- !u!1 &7868112197439299981
 GameObject:
   m_ObjectHideFlags: 0
