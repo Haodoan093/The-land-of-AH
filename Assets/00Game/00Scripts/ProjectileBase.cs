@@ -13,7 +13,7 @@ public abstract class ProjectileBase : Singleton<ProjectileBase>
     protected Animator animator;
     protected Rigidbody2D rigi;
     protected Coroutine rotineAutoDestruct;
-    protected Vector3 localScaleX = Vector3.zero;
+    protected Vector3 localScaleX = Vector3.one;
     protected virtual void Awake()
     {
         rigi = GetComponent<Rigidbody2D>();
@@ -37,6 +37,7 @@ public abstract class ProjectileBase : Singleton<ProjectileBase>
         rigi.velocity = Vector2.zero;
         if (rotineAutoDestruct != null)
             StopCoroutine(rotineAutoDestruct);
+        transform.localScale = localScaleX;
     }
 
     protected virtual void ResetProjectile()
@@ -45,7 +46,7 @@ public abstract class ProjectileBase : Singleton<ProjectileBase>
      
         rigi.velocity = new Vector2(moveSpeed.x * localScaleX.x, moveSpeed.y);
         // Reset any other variables as needed
-        Debug.Log(transform.localScale.x);
+        
 
     }
 
@@ -55,6 +56,7 @@ public abstract class ProjectileBase : Singleton<ProjectileBase>
         ResetProjectile();
 
         rotineAutoDestruct = StartCoroutine(autoDestruct());
+        transform.localScale = localScaleX;
     }
 
 

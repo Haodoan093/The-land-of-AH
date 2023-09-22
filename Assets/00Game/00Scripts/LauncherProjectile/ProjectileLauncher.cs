@@ -1,84 +1,157 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 public class ProjectileLauncher : MonoBehaviour
 {
-
-    public GameObject projectilePrefab;
+    public ProjectileBase projectilePrefab;
     public Transform launchPoint;
 
-    public GameObject skill2Prefab;
+    public ProjectileBase skill2Prefab;
     public Transform launchPoint2;
-    private rainPoint rainP;
 
-    public GameObject spSkillPrefab;
+    public ProjectileBase spSkillPrefab;
     public Transform launchPoint3;
 
-    public GameObject diagonalPrefab;
+    public ProjectileBase diagonalPrefab;
     public Transform diagonalPoint;
 
+    private ObjectPooling objectPooling;
 
-    // Start is called before the first frame update
-    void Start()
+    private rainPoint rainP;
+    public Transform bulletContainer;
+    private void Start()
     {
-        rainP=launchPoint2.GetComponent<rainPoint>();
+        objectPooling = ObjectPooling.Instant;
+        rainP = launchPoint2.GetComponent<rainPoint>();
     }
-    
+
     public void FireProjectile()
     {
-        GameObject projectile = Instantiate(projectilePrefab, launchPoint.transform.position, projectilePrefab.transform.rotation);
-        Vector3 origScale = projectile.transform.localScale;
+        ProjectileBase projectile = objectPooling.Getcomp<ProjectileBase>(projectilePrefab);
+        if (projectile != null)
+        {
+            // Khởi tạo và cấu hình đối tượng đạn
+            projectile.Init(transform.parent.localScale);
+            projectile.gameObject.SetActive(true);
+            projectile.transform.position = launchPoint.transform.position;
+            projectile.transform.rotation = Quaternion.identity;
 
-        projectile.transform.localScale = new Vector3(
-            origScale.x * transform.parent.localScale.x > 0 ? 1 : -1,
-            origScale.y,
-            origScale.z);
+            // Kiểm tra và điều chỉnh tỉ lệ quyết định hướng của đạn
+         //   Debug.Log(transform.parent.localScale.x);
+           
+            Vector3 origScale = projectile.transform.localScale;
+           if(origScale.x != transform.parent.localScale.x)
+            {
+                projectile.transform.localScale = new Vector3(
+              origScale.x * transform.parent.localScale.x > 0 ? 1 : -1,
+              origScale.y,
+              origScale.z);
+                Debug.Log(projectile.transform.localScale);
+
+            }
+            // Đặt đối tượng đạn vào bulletContainer (nếu cần)
+            projectile.transform.parent = bulletContainer;
+        }
     }
+
+
     public void DiagonalProjectile()
     {
-        GameObject projectile = Instantiate(diagonalPrefab, diagonalPoint.transform.position, diagonalPrefab.transform.rotation);
-        Vector3 origScale = projectile.transform.localScale;
+        ProjectileBase projectile = objectPooling.Getcomp<ProjectileBase>(diagonalPrefab);
 
-        projectile.transform.localScale = new Vector3(
-            origScale.x * transform.parent.localScale.x > 0 ? 1 : -1,
-            origScale.y,
-            origScale.z);
+
+        if (projectile != null)
+        {
+            // Khởi tạo và cấu hình đối tượng đạn
+            projectile.Init(transform.parent.localScale);
+            projectile.gameObject.SetActive(true);
+            projectile.transform.position = diagonalPoint.transform.position;
+            projectile.transform.rotation = Quaternion.identity;
+
+            // Kiểm tra và điều chỉnh tỉ lệ quyết định hướng của đạn
+            //   Debug.Log(transform.parent.localScale.x);
+
+            Vector3 origScale = projectile.transform.localScale;
+            if (origScale.x != transform.parent.localScale.x)
+            {
+                projectile.transform.localScale = new Vector3(
+              origScale.x * transform.parent.localScale.x > 0 ? 1 : -1,
+              origScale.y,
+              origScale.z);
+                Debug.Log(projectile.transform.localScale);
+
+            }
+            // Đặt đối tượng đạn vào bulletContainer (nếu cần)
+            projectile.transform.parent = bulletContainer;
+        }
     }
+
     public void Skill2()
-    { Vector3 rainPoint= launchPoint2.GetComponent<rainPoint>().GetClosestEnemyPosition();
-        rainPoint=new Vector3(rainPoint.x,rainPoint.y+(2.2f),rainPoint.z);
-        if (rainP.HasTarget)
-        {
+    {
+        Vector3 rainPoint = launchPoint2.GetComponent<rainPoint>().GetClosestEnemyPosition();
+        rainPoint = new Vector3(rainPoint.x, rainPoint.y + (2.2f), rainPoint.z);
 
-            GameObject projectile = Instantiate(skill2Prefab, rainPoint, skill2Prefab.transform.rotation);
-            Vector3 origScale = projectile.transform.localScale;
-            projectile.transform.localScale = new Vector3(
-             origScale.x * transform.parent.localScale.x > 0 ? 1 : -1,
-             origScale.y,
-             origScale.z);
+        ProjectileBase projectile = objectPooling.Getcomp<ProjectileBase>(skill2Prefab);
+      
 
-        }
-        else
+        if (projectile != null)
         {
-            GameObject projectile = Instantiate(skill2Prefab, launchPoint2.transform.position, skill2Prefab.transform.rotation);
+            // Khởi tạo và cấu hình đối tượng đạn
+            projectile.Init(transform.parent.localScale);
+            projectile.gameObject.SetActive(true);
+            projectile.transform.position = rainP.HasTarget ? rainPoint : launchPoint2.transform.position;
+            projectile.transform.rotation = Quaternion.identity;
+
+            // Kiểm tra và điều chỉnh tỉ lệ quyết định hướng của đạn
+            //   Debug.Log(transform.parent.localScale.x);
+
             Vector3 origScale = projectile.transform.localScale;
-            projectile.transform.localScale = new Vector3(
-             origScale.x * transform.parent.localScale.x > 0 ? 1 : -1,
-             origScale.y,
-             origScale.z);
+            if (origScale.x != transform.parent.localScale.x)
+            {
+                projectile.transform.localScale = new Vector3(
+              origScale.x * transform.parent.localScale.x > 0 ? 1 : -1,
+              origScale.y,
+              origScale.z);
+                Debug.Log(projectile.transform.localScale);
+
+            }
+            // Đặt đối tượng đạn vào bulletContainer (nếu cần)
+            projectile.transform.parent = bulletContainer;
         }
-         
     }
+
     public void SPSkill()
     {
-        GameObject projectile = Instantiate(spSkillPrefab, launchPoint3.transform.position, spSkillPrefab.transform.rotation);
-        Vector3 origScale = projectile.transform.localScale;
+        ProjectileBase projectile = objectPooling.Getcomp<ProjectileBase>(spSkillPrefab);
+      
+      
 
-        projectile.transform.localScale = new Vector3(
-            origScale.x * transform.parent.localScale.x > 0 ? 1 : -1,
-            origScale.y,
-            origScale.z);
+
+        if (projectile != null)
+        {
+            // Khởi tạo và cấu hình đối tượng đạn
+            projectile.Init(transform.parent.localScale);
+            projectile.gameObject.SetActive(true);
+            projectile.transform.position = launchPoint3.transform.position;
+            projectile.transform.rotation = Quaternion.identity;
+
+            // Kiểm tra và điều chỉnh tỉ lệ quyết định hướng của đạn
+            //   Debug.Log(transform.parent.localScale.x);
+
+            Vector3 origScale = projectile.transform.localScale;
+            if (origScale.x != transform.parent.localScale.x)
+            {
+                projectile.transform.localScale = new Vector3(
+              origScale.x * transform.parent.localScale.x > 0 ? 1 : -1,
+              origScale.y,
+              origScale.z);
+                Debug.Log(projectile.transform.localScale);
+
+            }
+            // Đặt đối tượng đạn vào bulletContainer (nếu cần)
+            projectile.transform.parent = bulletContainer;
+        }
     }
-
 }
