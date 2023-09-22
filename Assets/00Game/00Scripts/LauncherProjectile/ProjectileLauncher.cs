@@ -32,15 +32,12 @@ public class ProjectileLauncher : MonoBehaviour
         ProjectileBase projectile = objectPooling.Getcomp<ProjectileBase>(projectilePrefab);
         if (projectile != null)
         {
-            // Khởi tạo và cấu hình đối tượng đạn
+           
             projectile.Init(transform.parent.localScale);
             projectile.gameObject.SetActive(true);
             projectile.transform.position = launchPoint.transform.position;
             projectile.transform.rotation = Quaternion.identity;
 
-            // Kiểm tra và điều chỉnh tỉ lệ quyết định hướng của đạn
-         //   Debug.Log(transform.parent.localScale.x);
-           
             Vector3 origScale = projectile.transform.localScale;
            if(origScale.x != transform.parent.localScale.x)
             {
@@ -51,7 +48,7 @@ public class ProjectileLauncher : MonoBehaviour
                 Debug.Log(projectile.transform.localScale);
 
             }
-            // Đặt đối tượng đạn vào bulletContainer (nếu cần)
+          
             projectile.transform.parent = bulletContainer;
         }
     }
@@ -64,14 +61,12 @@ public class ProjectileLauncher : MonoBehaviour
 
         if (projectile != null)
         {
-            // Khởi tạo và cấu hình đối tượng đạn
             projectile.Init(transform.parent.localScale);
             projectile.gameObject.SetActive(true);
             projectile.transform.position = diagonalPoint.transform.position;
             projectile.transform.rotation = Quaternion.identity;
 
-            // Kiểm tra và điều chỉnh tỉ lệ quyết định hướng của đạn
-            //   Debug.Log(transform.parent.localScale.x);
+          
 
             Vector3 origScale = projectile.transform.localScale;
             if (origScale.x != transform.parent.localScale.x)
@@ -83,7 +78,7 @@ public class ProjectileLauncher : MonoBehaviour
                 Debug.Log(projectile.transform.localScale);
 
             }
-            // Đặt đối tượng đạn vào bulletContainer (nếu cần)
+       
             projectile.transform.parent = bulletContainer;
         }
     }
@@ -98,15 +93,13 @@ public class ProjectileLauncher : MonoBehaviour
 
         if (projectile != null)
         {
-            // Khởi tạo và cấu hình đối tượng đạn
+          
             projectile.Init(transform.parent.localScale);
             projectile.gameObject.SetActive(true);
             projectile.transform.position = rainP.HasTarget ? rainPoint : launchPoint2.transform.position;
             projectile.transform.rotation = Quaternion.identity;
 
-            // Kiểm tra và điều chỉnh tỉ lệ quyết định hướng của đạn
-            //   Debug.Log(transform.parent.localScale.x);
-
+          
             Vector3 origScale = projectile.transform.localScale;
             if (origScale.x != transform.parent.localScale.x)
             {
@@ -117,7 +110,7 @@ public class ProjectileLauncher : MonoBehaviour
                 Debug.Log(projectile.transform.localScale);
 
             }
-            // Đặt đối tượng đạn vào bulletContainer (nếu cần)
+           
             projectile.transform.parent = bulletContainer;
         }
     }
@@ -131,14 +124,12 @@ public class ProjectileLauncher : MonoBehaviour
 
         if (projectile != null)
         {
-            // Khởi tạo và cấu hình đối tượng đạn
+           
             projectile.Init(transform.parent.localScale);
             projectile.gameObject.SetActive(true);
             projectile.transform.position = launchPoint3.transform.position;
             projectile.transform.rotation = Quaternion.identity;
 
-            // Kiểm tra và điều chỉnh tỉ lệ quyết định hướng của đạn
-            //   Debug.Log(transform.parent.localScale.x);
 
             Vector3 origScale = projectile.transform.localScale;
             if (origScale.x != transform.parent.localScale.x)
@@ -150,7 +141,7 @@ public class ProjectileLauncher : MonoBehaviour
                 Debug.Log(projectile.transform.localScale);
 
             }
-            // Đặt đối tượng đạn vào bulletContainer (nếu cần)
+           
             projectile.transform.parent = bulletContainer;
         }
     }
