@@ -294,7 +294,7 @@ public class PlayerController : MonoBehaviour
         {
             if (touchingDirections.IsGrounded && !touchingDirections.IsOnWall)
             {
-                Debug.Log("roll");
+              
                 IsRolling = true;
                 StartCoroutine(EndRoll());
               
