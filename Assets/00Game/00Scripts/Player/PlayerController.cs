@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     Damageable damageable;
     CountDownTime countdown;
 
+    public bool isOnPlatform;
+  public Rigidbody2D platformrg;
 
     public float walkSpeed = 5f;
     public float jumpImpulse = 10f;
@@ -230,6 +232,10 @@ public class PlayerController : MonoBehaviour
             {
                 float slideDirection = IsFacingRight ? 1f : -1f;
                 rigi.velocity = new Vector2(slideDirection * slideSpeed, rigi.velocity.y);
+            }
+            else if (isOnPlatform)
+            {
+                rigi.velocity = new Vector2(moveInput.x * CurrentMoveSpeed+platformrg.velocity.x, rigi.velocity.y);
             }
             else 
             {
