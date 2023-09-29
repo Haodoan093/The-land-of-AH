@@ -35,15 +35,17 @@ public class MagicSkill : ProjectileLauncherBase
                 point.z);
             // GameObject projectile = Instantiate(projectilePrefab, point, projectilePrefab.transform.rotation);
 
-            ProjectileBase projectile = objectPooling.Getcomp<ProjectileBase>(projectilePrefab);
+       
+                ProjectileBase projectile = objectPooling.Getcomp<ProjectileBase>(projectilePrefab);
 
 
-            projectile.gameObject.SetActive(true);
+                projectile.gameObject.SetActive(true);
 
 
-            projectile.transform.position = point;
-            projectile.transform.rotation = Quaternion.identity;
-            projectile.transform.parent = bulletContainer;
+                projectile.transform.position = point;
+                projectile.transform.rotation = Quaternion.identity;
+                projectile.transform.parent = bulletContainer;
+            
 
         }
 
