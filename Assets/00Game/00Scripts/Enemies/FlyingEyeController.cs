@@ -11,7 +11,11 @@ public class FlyingEyeController : MonoBehaviour
     public List<Transform> wayPoints;
     public Collider2D deathCollider;
 
-     DetectionRange detectionRange;
+    [Header("-----HPBAR-----")]
+    [SerializeField]
+    protected HealthBarE HPBar;
+
+    DetectionRange detectionRange;
 
 
     Damageable damageable;
@@ -78,11 +82,15 @@ public class FlyingEyeController : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         detectionRange = GetComponentInChildren<DetectionRange>();
         nextWayPoint = wayPoints[wayPointNum];
+        HPBar.SetHealth(damageable.Health, damageable.MaxHealth);
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        HPBar.SetHealth(damageable.Health, damageable.MaxHealth);
+
         HasTarget = biteDetectionZone.detectionColliders.Count > 0;
         if (!CanAirAttack)
         {

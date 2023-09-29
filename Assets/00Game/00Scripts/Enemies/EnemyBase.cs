@@ -1,6 +1,7 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
-public abstract class EnemyBase : Singleton<EnemyBase>
+public abstract class EnemyBase : Singleton<EnemyBase>,IAttackable
 {
     protected Rigidbody2D rigi;
     protected TouchingDirections touchingDirection;
@@ -13,6 +14,9 @@ public abstract class EnemyBase : Singleton<EnemyBase>
     [SerializeField]
     protected DetectionZone cliffDetection;
 
+    [SerializeField]
+    protected float distanceTG;
+
     public float walkAcceleration = 3f;
     public float maxSpeed = 3f;
     public float walkStopRate = 0.05f;
@@ -24,6 +28,10 @@ public abstract class EnemyBase : Singleton<EnemyBase>
     [SerializeField]
     private bool _canShoot = true;
     private bool _hasTarget;
+
+    [Header("-----HPBAR-----")]
+    [SerializeField]
+      protected HealthBarE HPBar;
 
 
 
@@ -84,6 +92,23 @@ public abstract class EnemyBase : Singleton<EnemyBase>
             animator.SetBool(AnimationStrings.hasTarget, value);
         }
     }
+    private bool _freeze = false;
+    public bool Freeze
+    {
+        get
+        {
+            return _freeze;
+        }
+        protected set
+        {
+            _freeze = value;
+            if (value)
+            {
+                animator.SetBool(AnimationStrings.freeze, value);
+            }
+          
+        }
+    }
 
     public bool CanMove
     {
@@ -105,6 +130,7 @@ public abstract class EnemyBase : Singleton<EnemyBase>
 
     protected virtual void Start()
     {
+       
         detectionRange = GetComponentInChildren<DetectionRange>();
         animator = GetComponentInChildren<Animator>();
     }
@@ -119,18 +145,20 @@ public abstract class EnemyBase : Singleton<EnemyBase>
         {
             if (CanMove && detectionRange.HasTarget)
             {
-                if (CanShoot && GameManager.Instant.Player.touchingDirections.IsGrounded)
+                if (CanShoot && GameManager.Instant.Player.touchingDirections.IsGrounded&&!Freeze)
                 {
                     animator.SetTrigger(AnimationStrings.shootTrigger);
                     CanShoot = false;
                 }
+             if (distanceTG < Vector3.Distance(detectionRange.playerPosition, transform.position))
+                {
+                    Vector3 targetPosition = detectionRange.playerPosition;
+                    Vector2 directionToTarget = (targetPosition - transform.position).normalized;
 
-                Vector3 targetPosition = detectionRange.playerPosition;
-                Vector2 directionToTarget = (targetPosition - transform.position).normalized;
+                    WalkDirection = (directionToTarget.x > 0) ? WalkalbeDirection.Right : WalkalbeDirection.Left;
 
-                WalkDirection = (directionToTarget.x > 0) ? WalkalbeDirection.Right : WalkalbeDirection.Left;
-
-                rigi.velocity = new Vector2(maxSpeed * directionToTarget.x, rigi.velocity.y);
+                    rigi.velocity = new Vector2(maxSpeed * directionToTarget.x, rigi.velocity.y);
+                }
             }
             else if (CanMove && !HasTarget)
             {
@@ -145,7 +173,16 @@ public abstract class EnemyBase : Singleton<EnemyBase>
 
     protected virtual void Update()
     {
-        HasTarget = attackZone.detectionColliders.Count > 0;
+        Freeze = !GameManager.Instant.Player.IsAlive;
+        Debug.Log(Freeze);
+      if (!Freeze)
+        {
+            HasTarget = attackZone.detectionColliders.Count > 0;
+        }
+        else
+        {
+            HasTarget=false;
+        }
         if (AttackCooldown > 0)
         {
             AttackCooldown -= Time.deltaTime;

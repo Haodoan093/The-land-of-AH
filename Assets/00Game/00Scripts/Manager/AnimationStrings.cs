@@ -32,4 +32,5 @@ public class AnimationStrings : MonoBehaviour
     internal static string shootTrigger="shoot";
     internal static string castTrigger = "cast";
     internal static string intro="intro";
+    internal static string freeze="idle";
 }

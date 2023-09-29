@@ -20,7 +20,7 @@ public class SlimeController : EnemyBase
     {
 
         base.Start();
-
+        HPBar.SetHealth(damageable.Health, damageable.MaxHealth);
 
     }
 
@@ -36,7 +36,7 @@ public class SlimeController : EnemyBase
     {
 
         base.Update();
-
+        HPBar.SetHealth(damageable.Health, damageable.MaxHealth);
 
     }
     public override void OnHit(float dmg, Vector2 knockBack)

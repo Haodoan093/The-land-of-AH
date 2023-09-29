@@ -84,6 +84,7 @@ public class MovingPlatform : MonoBehaviour
         {
             playerController.isOnPlatform = true;
             playerController.platformrg = rigi;
+            playerController.transform.parent = transform;
             if(onGra)
            playerRB.gravityScale=playerRB.gravityScale*50;
         }
@@ -92,7 +93,8 @@ public class MovingPlatform : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-           playerController.isOnPlatform=false;
+            playerController.transform.parent = null;
+            playerController.isOnPlatform=false;
             if (onGra)
                 playerRB.gravityScale = playerRB.gravityScale /50;
         }

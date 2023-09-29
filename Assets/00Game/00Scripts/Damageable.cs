@@ -51,6 +51,7 @@ public class Damageable : MonoBehaviour,IGetHit
         set
         {
             _health = value;
+            //hpbar
             changeHealth?.Invoke(_health, MaxHealth);
             if (_health >= MaxHealth)
             {

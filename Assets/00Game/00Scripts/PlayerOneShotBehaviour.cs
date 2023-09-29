@@ -50,7 +50,6 @@ public class PlayerOneShotBehaviour : StateMachineBehaviour
         }
     }
 
-    // Phát âm thanh một lần tại vị trí cụ thể
     private void PlayOneShotSound(Vector3 position)
     {
         AudioSource.PlayClipAtPoint(soundToPlay, position, 100);

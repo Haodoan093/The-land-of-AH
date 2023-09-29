@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BossBase : Singleton<BossBase>
+public abstract class BossBase : Singleton<BossBase>,IAttackable
 {
     protected Rigidbody2D rigi;
     protected TouchingDirections touchingDirection;

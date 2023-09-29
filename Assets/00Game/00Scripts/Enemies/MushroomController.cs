@@ -22,9 +22,9 @@ using UnityEngine;
         {
 
             base.Start();
+        HPBar.SetHealth(damageable.Health, damageable.MaxHealth);
 
-
-        }
+    }
 
         protected override void FixedUpdate()
         {
@@ -38,9 +38,9 @@ using UnityEngine;
         {
 
             base.Update();
+        HPBar.SetHealth(damageable.Health, damageable.MaxHealth);
 
-
-        }
+    }
         public override void OnHit(float dmg, Vector2 knockBack)
         {
 
