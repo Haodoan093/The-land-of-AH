@@ -104,7 +104,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 593d0f02ce21a9546b30bf89479e0124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onGra: 1
   speed: 4
   ways: {fileID: 4588372076220056092}
   waypoints: []
@@ -189,7 +188,7 @@ MonoBehaviour:
   - {x: 1.0771332, y: -0.9518175, z: 0}
   m_ShapePathHash: -1078502275
   m_Mesh: {fileID: 0}
-  m_InstanceId: -7010
+  m_InstanceId: 66254
   m_LocalBounds:
     m_Center: {x: -0.015617371, y: -0.0064395666, z: 0}
     m_Extent: {x: 1.9319534, y: 0.94537795, z: 0}

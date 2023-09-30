@@ -334,7 +334,7 @@ public class PlayerController : MonoBehaviour
     public void OnFireBow(InputAction.CallbackContext context)
     {
       
-        if (context.started&&countdown.CanFireBow)
+        if (context.started&&countdown.CanFireBow&&touchingDirections.IsGrounded)
         {
 
             animator.SetTrigger(AnimationStrings.rangedAttackTrigger);
@@ -345,7 +345,7 @@ public class PlayerController : MonoBehaviour
     public void OnRainOfArrows(InputAction.CallbackContext context)
     {
        
-        if (context.started&&countdown.CanRainOfArrows)
+        if (context.started&&countdown.CanRainOfArrows && touchingDirections.IsGrounded&&rainPoint.Instant.HasTarget)
         {
 
             animator.SetTrigger(AnimationStrings.rangedAttackTrigger);
@@ -357,7 +357,7 @@ public class PlayerController : MonoBehaviour
     public void OnSPLaze(InputAction.CallbackContext context)
     {
        
-        if (context.started&&countdown.CanSPLaze)
+        if (context.started && countdown.CanSPLaze && touchingDirections.IsGrounded)
         {
 
             animator.SetTrigger(AnimationStrings.rangedAttackTrigger);

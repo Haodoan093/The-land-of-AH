@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class CountDownTime : MonoBehaviour
 {
-    private float attackTimer = 0f;
-    private float airAttackTimer = 0f;
-    private float fireBowTimer = 0f;
-    private float rainOfArrowsTimer = 0f;
-    private float splazeTimer = 0f;
+    public float attackTimer = 0f;
+    public float airAttackTimer = 0f;
+    public float fireBowTimer = 0f;
+    public float rainOfArrowsTimer = 0f;
+    public float splazeTimer = 0f;
 
     // Target cooldown times for each skill
     [SerializeField]
-    float attackCooldown = 1f;
+   public float attackCooldown = 1f;
     [SerializeField]
-    float airAttackCooldown = 1f;
+    public float airAttackCooldown = 1f;
     [SerializeField]
-    float fireBowCooldown = 2f;
+    public float fireBowCooldown = 2f;
     [SerializeField]
-    float rainOfArrowsCooldown = 5f;
+    public  float rainOfArrowsCooldown = 5f;
     [SerializeField]
-    float splazeCooldown = 15f;
+    public  float splazeCooldown = 15f;
 
     [SerializeField]
     private bool _canAirAttack = true;

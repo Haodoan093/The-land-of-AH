@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class rainPoint : MonoBehaviour
+public class rainPoint : Singleton<rainPoint>
 {
     public List<Transform> enemiesInRange = new List<Transform>();
 

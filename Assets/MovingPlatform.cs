@@ -84,19 +84,17 @@ public class MovingPlatform : MonoBehaviour
         {
             playerController.isOnPlatform = true;
             playerController.platformrg = rigi;
-            playerController.transform.parent = transform;
-            if(onGra)
-           playerRB.gravityScale=playerRB.gravityScale*50;
+            collision.transform.parent = transform;
+
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            playerController.transform.parent = null;
+            collision.transform.parent = null;
             playerController.isOnPlatform=false;
-            if (onGra)
-                playerRB.gravityScale = playerRB.gravityScale /50;
+           
         }
     }
 }
