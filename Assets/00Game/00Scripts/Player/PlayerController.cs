@@ -181,6 +181,7 @@ public class PlayerController : MonoBehaviour
         {
             return animator.GetBool(AnimationStrings.isAlive);
         }
+       
     }
 
 

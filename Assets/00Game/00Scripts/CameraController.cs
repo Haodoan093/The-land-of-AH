@@ -5,6 +5,11 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField] Transform Target;
+
+    PlayerController player;
+    Rigidbody2D playerRG;
+    Damageable damageable;
+
     Vector3 velocity=Vector3.zero;
     [Range(0, 1)]
     public float smoothTime;
@@ -15,6 +20,18 @@ public class CameraController : MonoBehaviour
     private void Awake()
     {
         Target = GameManager.Instant.Player.GetComponent<Transform>();
+        player = GameManager.Instant.Player;
+        playerRG=GameManager.Instant.Player.GetComponent<Rigidbody2D>();
+        damageable=GameManager.Instant.Player.GetComponent<Damageable>();
+    }
+    private void Update()
+    {
+        if(Target.position.y < yLimit.x-15)
+        {  
+            damageable.Hit(GameManager.Instant.Player.GetComponent<Damageable>().MaxHealth, Vector2.zero);
+            playerRG.velocity = Vector2.zero;
+            playerRG.gravityScale = 0;
+        }
     }
     // Update is called once per frame
     private void LateUpdate()
