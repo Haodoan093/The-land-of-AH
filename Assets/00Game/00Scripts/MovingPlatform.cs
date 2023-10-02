@@ -52,9 +52,10 @@ public class MovingPlatform : MonoBehaviour
         if (newParent != oldParent)
         {
             
-            playerController.transform.parent = newParent;
+            playerController.transform.SetParent ( newParent);
             oldParent = newParent;
         }
+       
 
     }
     void NextPoint()
