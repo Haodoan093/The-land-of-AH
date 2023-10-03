@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class BossBase : Singleton<BossBase>,IAttackable
@@ -26,6 +27,7 @@ public abstract class BossBase : Singleton<BossBase>,IAttackable
     [SerializeField]
     private bool _canShoot = true;
     private bool _hasTarget;
+    PlayerController player;
 
     public enum WalkalbeDirection
     {
@@ -92,40 +94,50 @@ public abstract class BossBase : Singleton<BossBase>,IAttackable
     {
         detectionRange = GetComponentInChildren<DetectionRange>();
         animator.SetBool(AnimationStrings.intro, true);
+        player = GameManager.Instant.Player;
     }
 
     protected virtual void FixedUpdate()
     {
-        if (touchingDirection.IsOnWall && touchingDirection.IsGrounded && !HasTarget && !detectionRange.HasTarget)
+        if (!player.IsAlive)
         {
-            FlipDirection();
+            animator.SetBool(AnimationStrings.freeze,true);
+
         }
-        if (!damageable.LockVelocity)
+        else
         {
-            if (CanMove && detectionRange.HasTarget && !HasTarget)
+            if (touchingDirection.IsOnWall && touchingDirection.IsGrounded && !HasTarget && !detectionRange.HasTarget)
             {
-                if (CanShoot && GameManager.Instant.Player.touchingDirections.IsGrounded)
+                FlipDirection();
+            }
+            if (!damageable.LockVelocity)
+            {
+                if (CanMove && detectionRange.HasTarget && !HasTarget)
                 {
-                    animator.SetTrigger(AnimationStrings.shootTrigger);
-                    CanShoot = false;
+                    if (CanShoot && GameManager.Instant.Player.touchingDirections.IsGrounded)
+                    {
+                        animator.SetTrigger(AnimationStrings.shootTrigger);
+                        CanShoot = false;
+                    }
+
+                    Vector3 targetPosition = detectionRange.playerPosition;
+                    Vector2 directionToTarget = (targetPosition - transform.position).normalized;
+
+                    WalkDirection = (directionToTarget.x > 0) ? WalkalbeDirection.Right : WalkalbeDirection.Left;
+
+                    rigi.velocity = new Vector2(maxSpeed * directionToTarget.x, rigi.velocity.y);
                 }
-
-                Vector3 targetPosition = detectionRange.playerPosition;
-                Vector2 directionToTarget = (targetPosition - transform.position).normalized;
-
-                WalkDirection = (directionToTarget.x > 0) ? WalkalbeDirection.Right : WalkalbeDirection.Left;
-
-                rigi.velocity = new Vector2(maxSpeed * directionToTarget.x, rigi.velocity.y);
-            }
-            else if (CanMove && !HasTarget)
-            {
-                rigi.velocity = new Vector2(maxSpeed * walkDirectionVector.x, rigi.velocity.y);
-            }
-            else
-            {
-                rigi.velocity = new Vector2(Mathf.Lerp(rigi.velocity.x, 0, walkStopRate), rigi.velocity.y);
+                else if (CanMove && !HasTarget)
+                {
+                    rigi.velocity = new Vector2(maxSpeed * walkDirectionVector.x, rigi.velocity.y);
+                }
+                else
+                {
+                    rigi.velocity = new Vector2(Mathf.Lerp(rigi.velocity.x, 0, walkStopRate), rigi.velocity.y);
+                }
             }
         }
+        
     }
 
     protected virtual void Update()

@@ -203,6 +203,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!IsAlive)
+        {
+            rigi.gravityScale = 5;
+        }
         if (rigi.velocity.y < 0)
         {
            

@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class MovingPlatform : MonoBehaviour
 {
-    public bool onGra=false;
+    public bool onGround = false;
     public float speed;
     Vector3 targetPos;
 
@@ -14,80 +13,56 @@ public class MovingPlatform : MonoBehaviour
     Vector3 moveDirection;
     Rigidbody2D playerRB;
 
-    public GameObject ways;
-    public Transform[] waypoints;
-    int pointIndex;
-    int pointCount;
-    int direction = 1;
+    public GameObject waypointContainer;
+    private Transform[] waypoints;
+    private int currentWaypointIndex;
+    private int waypointCount;
+    private int direction = 1;
 
     public float waitDuration;
 
     private Transform newParent;
     private Transform oldParent;
+
     private void Awake()
     {
         playerController = GameManager.Instant.Player.GetComponent<PlayerController>();
-        rigi=GetComponent<Rigidbody2D>();
+        rigi = GetComponent<Rigidbody2D>();
         playerRB = GameManager.Instant.Player.GetComponent<Rigidbody2D>();
-        waypoints = new Transform[ways.transform.childCount];
-        for(int i = 0; i < ways.transform.childCount; i++)
+        waypoints = new Transform[waypointContainer.transform.childCount];
+        for (int i = 0; i < waypointContainer.transform.childCount; i++)
         {
-            waypoints[i]=ways.transform.GetChild(i).gameObject.transform;
+            waypoints[i] = waypointContainer.transform.GetChild(i);
         }
     }
+
     private void Start()
     {
-        pointIndex = 1;
-        pointCount=waypoints.Length;
+        currentWaypointIndex = 1;
+        waypointCount = waypoints.Length;
         targetPos = waypoints[1].transform.position;
-      
+
         DirectionCalculate();
     }
+
     private void Update()
     {
-        if(Vector2.Distance(transform.position, targetPos) < 0.05f)
+        if (Vector2.Distance(transform.position, targetPos) < 0.05f)
         {
-            NextPoint();
+            NextWaypoint();
         }
         if (newParent != oldParent)
         {
-            
-            playerController.transform.SetParent ( newParent);
+            playerController.transform.SetParent(newParent);
             oldParent = newParent;
         }
-       
-
-    }
-    void NextPoint()
-    {
-        transform.position = targetPos;
-        moveDirection = Vector3.zero;
-        if (pointIndex == pointCount - 1)
-        {
-            direction = -1;
-        }
-        if (pointIndex == 0)
-        {
-            direction = 1;
-        }
-        pointIndex += direction;
-        targetPos = waypoints[pointIndex].transform.position;
-            StartCoroutine(WaitNextPoint());
     }
 
-    IEnumerator WaitNextPoint()
-    {
-        yield return new WaitForSeconds(waitDuration);
-        DirectionCalculate();
-    }
     private void FixedUpdate()
     {
         rigi.velocity = moveDirection * speed;
     }
-    void DirectionCalculate()
-    {
-        moveDirection=(targetPos-transform.position).normalized;
-    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -95,16 +70,43 @@ public class MovingPlatform : MonoBehaviour
             playerController.isOnPlatform = true;
             playerController.platformrg = rigi;
             newParent = transform;
-
         }
     }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
             newParent = null;
-            playerController.isOnPlatform=false;
-           
+            playerController.isOnPlatform = false;
         }
+    }
+
+    private void NextWaypoint()
+    {
+        transform.position = targetPos;
+        moveDirection = Vector3.zero;
+        if (currentWaypointIndex == waypointCount - 1)
+        {
+            direction = -1;
+        }
+        if (currentWaypointIndex == 0)
+        {
+            direction = 1;
+        }
+        currentWaypointIndex += direction;
+        targetPos = waypoints[currentWaypointIndex].transform.position;
+        StartCoroutine(WaitForNextWaypoint());
+    }
+
+    private IEnumerator WaitForNextWaypoint()
+    {
+        yield return new WaitForSeconds(waitDuration);
+        DirectionCalculate();
+    }
+
+    private void DirectionCalculate()
+    {
+        moveDirection = (targetPos - transform.position).normalized;
     }
 }

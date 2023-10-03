@@ -157,6 +157,31 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1101 &-4750802138308255973
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: idle
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 8054824777440462999}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.25
+  m_TransitionOffset: 0
+  m_ExitTime: 0.75
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 0
 --- !u!1101 &-4709954836465867410
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -347,6 +372,12 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
+  - m_Name: idle
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -489,7 +520,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 8054824777440462999}
-    m_Position: {x: 40, y: 180, z: 0}
+    m_Position: {x: 820, y: 210, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6375663816270876575}
     m_Position: {x: 570, y: 140, z: 0}
@@ -509,16 +540,17 @@ AnimatorStateMachine:
   m_AnyStateTransitions:
   - {fileID: -2642782895562513978}
   - {fileID: 5963860786821431374}
+  - {fileID: -4750802138308255973}
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: 8416724996215942509}
-    second:
-    - {fileID: 7320890192158257383}
   - first: {fileID: -6237963507452017675}
     second:
     - {fileID: 517058178901771975}
     - {fileID: -8126312728786783066}
     - {fileID: 8739921282657485737}
+  - first: {fileID: 8416724996215942509}
+    second:
+    - {fileID: 7320890192158257383}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 630, y: 210, z: 0}
   m_EntryPosition: {x: 60, y: 270, z: 0}

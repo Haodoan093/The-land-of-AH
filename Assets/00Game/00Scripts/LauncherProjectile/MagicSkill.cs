@@ -30,7 +30,7 @@ public class MagicSkill : ProjectileLauncherBase
             Vector3 point = targetPoint.playerPosition;
 
             point = new Vector3(
-                point.x + Random.Range(-4,4),
+                point.x + Random.Range(-randomPoints.x, randomPoints.x),
                 point.y+yPos,
                 point.z);
             // GameObject projectile = Instantiate(projectilePrefab, point, projectilePrefab.transform.rotation);
