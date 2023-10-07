@@ -17,6 +17,7 @@ public abstract class ProjectileLauncherBase : MonoBehaviour
     {
         
             targetPoint = this.GetComponent<DetectionRange>();
+        bulletContainer = ThungChua.Instant.transform;
     }
 
     public abstract void LaunchProjectiles();

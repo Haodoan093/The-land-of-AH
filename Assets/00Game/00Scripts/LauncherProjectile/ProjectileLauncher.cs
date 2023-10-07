@@ -25,6 +25,7 @@ public class ProjectileLauncher : MonoBehaviour
     {
         objectPooling = ObjectPooling.Instant;
         rainP = launchPoint2.GetComponent<rainPoint>();
+        bulletContainer = ThungChua.Instant.transform;
     }
 
     public void FireProjectile()

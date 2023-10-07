@@ -55,10 +55,12 @@ public class SwipeController : MonoBehaviour,IEndDragHandler
         MovePage();
     }
 
+
     public void MovePage()
     {
+       
+        LeanTween.reset();
         levelPagesRect.LeanMoveLocal(targetPos, tweenTime).setEase(tweenType);
-        
         UpdateBar();
         UpdateArrowButton();
     }
@@ -88,4 +90,6 @@ public class SwipeController : MonoBehaviour,IEndDragHandler
         if(currentPage==1) previousBtn.interactable = false;
         else if (currentPage==maxPage) nextBtn.interactable = false;
     }
+ 
+
 }
