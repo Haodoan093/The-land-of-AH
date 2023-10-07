@@ -144,13 +144,14 @@ public abstract class EnemyBase : Singleton<EnemyBase>,IAttackable
         if (!damageable.LockVelocity)
         {
             if (CanMove && detectionRange.HasTarget)
-            {
+            {    
+
                 if (CanShoot && GameManager.Instant.Player.touchingDirections.IsGrounded&&!Freeze)
                 {
                     animator.SetTrigger(AnimationStrings.shootTrigger);
                     CanShoot = false;
                 }
-             if (distanceTG < Vector3.Distance(detectionRange.playerPosition, transform.position))
+                if (distanceTG < Vector3.Distance(detectionRange.playerPosition, transform.position)&& !cliffDetection.canFlip)
                 {
                     Vector3 targetPosition = detectionRange.playerPosition;
                     Vector2 directionToTarget = (targetPosition - transform.position).normalized;
@@ -158,6 +159,9 @@ public abstract class EnemyBase : Singleton<EnemyBase>,IAttackable
                     WalkDirection = (directionToTarget.x > 0) ? WalkalbeDirection.Right : WalkalbeDirection.Left;
 
                     rigi.velocity = new Vector2(maxSpeed * directionToTarget.x, rigi.velocity.y);
+                }else
+                {
+                    rigi.velocity = Vector3.zero;
                 }
             }
             else if (CanMove && !HasTarget)
@@ -174,7 +178,7 @@ public abstract class EnemyBase : Singleton<EnemyBase>,IAttackable
     protected virtual void Update()
     {
         Freeze = !GameManager.Instant.Player.IsAlive;
-        Debug.Log(Freeze);
+      
       if (!Freeze)
         {
             HasTarget = attackZone.detectionColliders.Count > 0;

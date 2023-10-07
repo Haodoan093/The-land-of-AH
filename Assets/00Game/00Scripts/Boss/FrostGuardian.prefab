@@ -93,6 +93,7 @@ MonoBehaviour:
   noCollidersRemain:
     m_PersistentCalls:
       m_Calls: []
+  canFlip: 0
   detectionColliders: []
 --- !u!1 &1861541881790077247
 GameObject:
@@ -300,7 +301,7 @@ Transform:
   m_GameObject: {fileID: 3854054098716937376}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7, y: 0.18, z: 0}
+  m_LocalPosition: {x: -9, y: 0.18, z: 0}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -336,7 +337,7 @@ Transform:
   m_GameObject: {fileID: 5813162124354040483}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 233.3, y: -1.4, z: 0.052240368}
+  m_LocalPosition: {x: 439.98, y: 8.26, z: 0.052240368}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -458,10 +459,10 @@ MonoBehaviour:
   detectionRange: {fileID: 5479402280183673137}
   attackZone: {fileID: 4808068787595023548}
   cliffDetection: {fileID: 5269905989420788140}
-  walkAcceleration: 3
-  maxSpeed: 3
+  walkAcceleration: 6
+  maxSpeed: 6
   walkStopRate: 0.05
-  shootCooldown: 2
+  shootCooldown: 4
   _canShoot: 1
 --- !u!70 &8513092275699216940
 CapsuleCollider2D:
@@ -495,8 +496,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.018680573, y: -0.8966613}
-  m_Size: {x: 3.8998337, y: 6.454689}
+  m_Offset: {x: -0.089538574, y: -1.2745626}
+  m_Size: {x: 2.482727, y: 5.6988864}
   m_Direction: 0
 --- !u!1 &6565519016090429501
 GameObject:
@@ -603,6 +604,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  canFlip: 0
   detectionColliders: []
 --- !u!1 &7243318566937680608
 GameObject:
@@ -663,7 +665,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -774,7 +776,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -1.4980736, y: 0.58536196}
+  m_Offset: {x: -2.2174225, y: 0.58536196}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -785,7 +787,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 20.557121, y: 9.495944}
+  m_Size: {x: 46.090424, y: 9.495944}
   m_EdgeRadius: 0
 --- !u!114 &8649597874809977387
 MonoBehaviour:
@@ -799,9 +801,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c622ee85b06fc54299fb85575c18f6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 0}
-  launchPoint: {fileID: 0}
+  projectilePrefab: {fileID: 7342442165229920026, guid: ee29f142fd189de45b8876cee29fb27d, type: 3}
+  launchPoint: {fileID: 6990332804657979546}
   bulletContainer: {fileID: 0}
-  quantity: 1
-  randomPoints: {x: 0, y: 0}
-  yPos: 0.2
+  quantity: 7
+  randomPoints: {x: 7, y: 0}
+  yPos: 1.3

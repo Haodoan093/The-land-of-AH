@@ -60,6 +60,7 @@ public class Damageable : MonoBehaviour,IGetHit
             if (_health <= 0)
             {
                 IsAlive = false;
+                //this.transform.CompareTag("enemy")
             }
         }
     }
@@ -137,17 +138,17 @@ public class Damageable : MonoBehaviour,IGetHit
                 LockVelocity = true;
 
                 animator.SetTrigger(AnimationStrings.hitTrigger);
-                //Notify other subscribed components that the damageble was hit to handle the knockback and such
+               
                 damageableHit?.Invoke(damage, knockBack);
                 return true;
             }
             
         }
-        //Unable to be hit
+      
         return false;
     }
 
-    // Returns whether the charcater was healed or not
+    
     public bool Heal(float healthRestore)
     {//hoi mau
         if (IsAlive && Health < MaxHealth)

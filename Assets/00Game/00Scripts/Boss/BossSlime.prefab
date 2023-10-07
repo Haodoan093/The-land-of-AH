@@ -105,6 +105,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  canFlip: 0
   detectionColliders: []
 --- !u!1 &1180959629369424517
 GameObject:
@@ -196,7 +197,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -332,11 +333,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 642240d91c94418449b7ffd9bd41f2f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 5490914320706905316, guid: 5b201529ac50773479f5f2d9fc0e1a44, type: 3}
+  projectilePrefab: {fileID: 6318080994186632486, guid: 5b201529ac50773479f5f2d9fc0e1a44, type: 3}
   launchPoint: {fileID: 8098583830076506784}
   bulletContainer: {fileID: 0}
-  quantity: 1
-  randomPoints: {x: 0, y: 0}
+  quantity: 5
+  randomPoints: {x: 0, y: 3}
 --- !u!1 &4408451302242895194
 GameObject:
   m_ObjectHideFlags: 0
@@ -367,7 +368,7 @@ Transform:
   m_GameObject: {fileID: 4408451302242895194}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 95.01, y: 0.4, z: 0.025801193}
+  m_LocalPosition: {x: 654.7, y: 2.93, z: 0.025801193}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -806,4 +807,5 @@ MonoBehaviour:
   noCollidersRemain:
     m_PersistentCalls:
       m_Calls: []
+  canFlip: 0
   detectionColliders: []

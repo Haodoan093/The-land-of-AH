@@ -108,5 +108,6 @@ public class MovingPlatform : MonoBehaviour
     private void DirectionCalculate()
     {
         moveDirection = (targetPos - transform.position).normalized;
+
     }
 }

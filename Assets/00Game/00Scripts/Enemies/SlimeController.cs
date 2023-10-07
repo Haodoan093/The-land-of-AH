@@ -48,6 +48,7 @@ public class SlimeController : EnemyBase
     {
         if (touchingDirection.IsGrounded)
         {
+        
             FlipDirection();
         }
     }

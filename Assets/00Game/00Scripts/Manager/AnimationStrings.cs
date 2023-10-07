@@ -33,4 +33,6 @@ public class AnimationStrings : MonoBehaviour
     internal static string castTrigger = "cast";
     internal static string intro="intro";
     internal static string freeze="idle";
+    internal static string UnlockedLevel= "UnlockedLevel";
+    internal static string ReachedIndex= "ReachedIndex";
 }

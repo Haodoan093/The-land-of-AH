@@ -162,6 +162,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   deathCollider: {fileID: 6749965278482251655}
+  HPBar: {fileID: 0}
   airAttackCooldown: 2.5
   _canAirAttack: 1
 --- !u!1 &713054510724195841
