@@ -14,10 +14,12 @@ public class LevelMenu : MonoBehaviour
 
     private void Awake()
     {
+      
         ButtonsToArray();
         if (PlayerPrefs.GetInt(AnimationStrings.UnlockedLevel) > unlockedLevel)
         {
             unlockedLevel = PlayerPrefs.GetInt(AnimationStrings.UnlockedLevel);
+            
         }
         UpdateButtons();
     }
@@ -25,6 +27,7 @@ public class LevelMenu : MonoBehaviour
     public void OpenLevel(int levelID)
     {
         string levelName = "Level" + levelID;
+        Time.timeScale = 1.0f;
         SceneManager.LoadSceneAsync(levelName);
     }
 

@@ -7,16 +7,18 @@ public class rainPoint : Singleton<rainPoint>
     public List<Transform> enemiesInRange = new List<Transform>();
 
     private bool _hasTarget = false;
-    public bool HasTarget { 
-      get { return _hasTarget; }
+    public float posy = 3f;
+    public bool HasTarget
+    {
+        get { return _hasTarget; }
         set { _hasTarget = value; }
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-       
+
         if (other.CompareTag("Enemy") || other.CompareTag("Boss"))
         {
-           
+
             enemiesInRange.Add(other.transform);
         }
     }
@@ -31,26 +33,26 @@ public class rainPoint : Singleton<rainPoint>
 
     private void Update()
     {
-       if(enemiesInRange.Count > 0)
+        if (enemiesInRange.Count > 0)
         {
-            HasTarget=true;
+            HasTarget = true;
         }
         else
         {
             HasTarget = false;
         }
-        
+
     }
 
-    // Hàm này trả về vị trí của enemy/boss gần nhất
-    public Vector2 GetClosestEnemyPosition()
+
+    public Vector3 GetClosestEnemyPosition()
     {
         if (enemiesInRange.Count == 0)
         {
-            return Vector2.zero; // Trả về giá trị mặc định nếu không có enemy nào trong phạm vi
+            return Vector3.zero;
         }
 
-        Vector2 closestEnemyPosition = Vector2.zero;
+        Vector3 closestEnemyPosition = Vector3.zero;
         float closestDistance = float.MaxValue;
 
         foreach (Transform enemy in enemiesInRange)
@@ -59,7 +61,17 @@ public class rainPoint : Singleton<rainPoint>
             if (distance < closestDistance)
             {
                 closestDistance = distance;
-                closestEnemyPosition = (Vector2)enemy.position;
+                closestEnemyPosition = enemy.position;
+
+                // Kiểm tra tag của mục tiêu và cộng hoặc trừ giá trị theo điều kiện
+                if (enemy.CompareTag("Enemy"))
+                {
+                    closestEnemyPosition.y += 2.2f;
+                }
+                else if (enemy.CompareTag("Boss"))
+                {
+                    closestEnemyPosition.y -= posy;
+                }
             }
         }
 

@@ -11,5 +11,7 @@ public class CharacterEvents : MonoBehaviour
 
         //character healed and amount healed
         public static UnityAction<GameObject, float> characterHealed;
-    
+        public static UnityAction lost;
+        public static UnityAction won;
+
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -13,15 +14,30 @@ public class GameManager : Singleton<GameManager>
     public int boss_limit = 1;
     public int boss_killed = 0;
 
-    // Start is called before the first frame update
+    public UnityEvent onEndGame; 
+
+    private bool hasGameEnded = false; 
+
+  
     void Start()
     {
-        
+      
+        onEndGame.AddListener(CheckEndGame);
     }
 
-    // Update is called once per frame
+  
     void Update()
     {
-        
+
+    }
+
+ 
+    void CheckEndGame()
+    {
+        if (!hasGameEnded && killed >= monster_limit && boss_killed >= boss_limit)
+        {
+            ends.SetActive(true);
+            hasGameEnded = true;
+        }
     }
 }

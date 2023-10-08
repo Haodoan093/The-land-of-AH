@@ -354,7 +354,7 @@ GameObject:
   - component: {fileID: 1313334353469409751}
   m_Layer: 7
   m_Name: BossSlime
-  m_TagString: Enemy
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

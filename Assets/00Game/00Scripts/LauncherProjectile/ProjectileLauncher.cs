@@ -46,7 +46,7 @@ public class ProjectileLauncher : MonoBehaviour
               origScale.x * transform.parent.localScale.x > 0 ? 1 : -1,
               origScale.y,
               origScale.z);
-                Debug.Log(projectile.transform.localScale);
+             
 
             }
           
@@ -76,7 +76,7 @@ public class ProjectileLauncher : MonoBehaviour
               origScale.x * transform.parent.localScale.x > 0 ? 1 : -1,
               origScale.y,
               origScale.z);
-                Debug.Log(projectile.transform.localScale);
+              
 
             }
        
@@ -87,7 +87,7 @@ public class ProjectileLauncher : MonoBehaviour
     public void Skill2()
     {
         Vector3 rainPoint = launchPoint2.GetComponent<rainPoint>().GetClosestEnemyPosition();
-        rainPoint = new Vector3(rainPoint.x, rainPoint.y + (2.2f), rainPoint.z);
+       
 
         ProjectileBase projectile = objectPooling.Getcomp<ProjectileBase>(skill2Prefab);
       
@@ -108,7 +108,7 @@ public class ProjectileLauncher : MonoBehaviour
               origScale.x * transform.parent.localScale.x > 0 ? 1 : -1,
               origScale.y,
               origScale.z);
-                Debug.Log(projectile.transform.localScale);
+               
 
             }
            
@@ -139,7 +139,7 @@ public class ProjectileLauncher : MonoBehaviour
               origScale.x * transform.parent.localScale.x > 0 ? 1 : -1,
               origScale.y,
               origScale.z);
-                Debug.Log(projectile.transform.localScale);
+               
 
             }
            

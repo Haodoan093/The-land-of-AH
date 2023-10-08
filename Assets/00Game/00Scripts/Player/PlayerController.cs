@@ -205,6 +205,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!IsAlive)
         {
+            CharacterEvents.lost.Invoke();
             rigi.gravityScale = 5;
         }
         if (rigi.velocity.y < 0)

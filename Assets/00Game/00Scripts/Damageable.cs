@@ -9,7 +9,7 @@ public class Damageable : MonoBehaviour,IGetHit
     public UnityEvent damageableDeath;
     public UnityEvent<float, float> changeHealth;
     Animator animator;
-
+    private GameManager gameManager;
 
     [SerializeField]
     private float _armor = 0;
@@ -59,8 +59,19 @@ public class Damageable : MonoBehaviour,IGetHit
             }
             if (_health <= 0)
             {
+                Debug.Log("Die");
                 IsAlive = false;
-                //this.transform.CompareTag("enemy")
+                if (this.transform.CompareTag("Enemy")||this.transform.CompareTag("Slime"))
+                {
+                    gameManager.killed++; 
+                    gameManager.onEndGame.Invoke(); 
+                }
+                if (this.transform.CompareTag("Boss"))
+                {
+                    Debug.Log("Boss");
+                    gameManager.boss_killed++; 
+                    gameManager.onEndGame.Invoke();
+                }
             }
         }
     }
@@ -105,6 +116,10 @@ public class Damageable : MonoBehaviour,IGetHit
     private void Awake()
     {
         animator = GetComponentInChildren<Animator>();
+    }
+    private void Start()
+    {
+        gameManager = GameManager.Instant;
     }
     void Update()
     {
