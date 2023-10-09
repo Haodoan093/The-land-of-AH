@@ -103,10 +103,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 593d0f02ce21a9546b30bf89479e0124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onGra: 0
+  onGround: 0
   speed: 4
-  ways: {fileID: 4588372076220056092}
-  waypoints: []
+  waypointContainer: {fileID: 0}
   waitDuration: 0.5
 --- !u!60 &7270535322817106844
 PolygonCollider2D:
@@ -154,11 +153,13 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 0.11740112, y: 1.1408925}
       - {x: -1.890357, y: 1.1543727}
-      - {x: -1.7190399, y: -0.24667883}
-      - {x: -0.5877852, y: -0.80901706}
-      - {x: 0.58778536, y: -0.80901694}
-      - {x: 1.8175507, y: -0.3443756}
-      - {x: 1.7729254, y: 1.1543727}
+      - {x: -1.884491, y: 0.45057964}
+      - {x: -1.5653534, y: -0.1794405}
+      - {x: -0.45330948, y: -0.22308338}
+      - {x: 0.43409884, y: -0.0021574497}
+      - {x: 1.3757019, y: 0.0878706}
+      - {x: 1.8554993, y: 0.7955792}
+      - {x: 1.8689795, y: 1.1543727}
   m_UseDelaunayMesh: 0
 --- !u!114 &2055401229872874958
 MonoBehaviour:
@@ -174,7 +175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ShadowGroup: 0
   m_ComponentVersion: 1
-  m_HasRenderer: 1
+  m_HasRenderer: 0
   m_UseRendererSilhouette: 1
   m_CastsShadows: 1
   m_SelfShadows: 0
@@ -188,7 +189,7 @@ MonoBehaviour:
   - {x: 1.0771332, y: -0.9518175, z: 0}
   m_ShapePathHash: -1078502275
   m_Mesh: {fileID: 0}
-  m_InstanceId: 58776
+  m_InstanceId: 36442
   m_LocalBounds:
     m_Center: {x: -0.015617371, y: -0.0064395666, z: 0}
     m_Extent: {x: 1.9319534, y: 0.94537795, z: 0}

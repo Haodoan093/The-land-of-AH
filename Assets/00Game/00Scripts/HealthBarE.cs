@@ -11,7 +11,7 @@ public class HealthBarE : MonoBehaviour
 
     public void SetHealth(float health, float maxHealth)
     {
-        hpbarE.gameObject.SetActive(health < maxHealth);
+        hpbarE.gameObject.SetActive(health < maxHealth);//true
         hpbarE.value = health;
         hpbarE.maxValue = maxHealth;
     }

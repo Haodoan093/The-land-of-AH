@@ -292,10 +292,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 593d0f02ce21a9546b30bf89479e0124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onGra: 0
+  onGround: 0
   speed: 2
-  ways: {fileID: 7815585008412365273}
-  waypoints: []
+  waypointContainer: {fileID: 0}
   waitDuration: 1
 --- !u!50 &8290431810128815421
 Rigidbody2D:
@@ -401,7 +400,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.010101318, y: 0.38324356}
+  m_Offset: {x: -0.010097504, y: 0.7024212}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -412,5 +411,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4.061157, y: 1.7664871}
+  m_Size: {x: 4.0013046, y: 1.1281319}
   m_EdgeRadius: 0

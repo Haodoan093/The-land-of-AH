@@ -20,7 +20,7 @@ public class FrostGuardianController : BossBase
     {
 
         base.Start();
-
+        HPBar.SetHealth(damageable.Health, damageable.MaxHealth);
 
     }
 
@@ -36,7 +36,7 @@ public class FrostGuardianController : BossBase
     {
 
         base.Update();
-
+        HPBar.SetHealth(damageable.Health, damageable.MaxHealth);
 
     }
     public override void OnHit(float dmg, Vector2 knockBack)

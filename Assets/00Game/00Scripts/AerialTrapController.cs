@@ -5,15 +5,15 @@ using UnityEngine;
 public class AerialTrapController : MonoBehaviour
 {
     Damageable damageable;
+    public float dmg=5;
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
         if (collision.CompareTag("Player"))
         {
             damageable = collision.GetComponent<Damageable>();
-            damageable.Hit(GameManager.Instant.Player.GetComponent<Damageable>().MaxHealth, Vector2.zero);
-            GameManager.Instant.Player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            GameManager.Instant.Player.GetComponent<Rigidbody2D>().gravityScale = 20;
+            damageable.Hit(dmg, Vector2.zero);
+
 
         }
     }

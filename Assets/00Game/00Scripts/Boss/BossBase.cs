@@ -28,6 +28,9 @@ public abstract class BossBase : Singleton<BossBase>,IAttackable
     private bool _canShoot = true;
     private bool _hasTarget;
     PlayerController player;
+    [Header("-----HPBAR-----")]
+    [SerializeField]
+    protected HealthBarE HPBar;
 
     public enum WalkalbeDirection
     {
@@ -103,6 +106,10 @@ public abstract class BossBase : Singleton<BossBase>,IAttackable
         {
             animator.SetBool(AnimationStrings.freeze,true);
 
+        }else if (animator.GetBool(AnimationStrings.intro))
+        {
+            HasTarget = false;
+            detectionRange.HasTarget = false;
         }
         else
         {

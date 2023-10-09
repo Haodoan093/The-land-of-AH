@@ -289,6 +289,7 @@ public class PlayerController : MonoBehaviour
             animator.SetTrigger(AnimationStrings.jumpTrigger);
             rigi.velocity = new Vector2(rigi.velocity.x, jumpImpulse);
             IsJumping = true;
+            rigi.gravityScale = 1f;
         }
         if (context.canceled)
         {

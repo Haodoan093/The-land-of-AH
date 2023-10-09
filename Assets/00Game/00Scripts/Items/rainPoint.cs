@@ -16,7 +16,7 @@ public class rainPoint : Singleton<rainPoint>
     private void OnTriggerEnter2D(Collider2D other)
     {
 
-        if (other.CompareTag("Enemy") || other.CompareTag("Boss"))
+        if (other.CompareTag("Enemy") || other.CompareTag("Boss")||other.CompareTag("Slime"))
         {
 
             enemiesInRange.Add(other.transform);
@@ -25,7 +25,7 @@ public class rainPoint : Singleton<rainPoint>
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Enemy") || other.CompareTag("Boss"))
+        if (other.CompareTag("Enemy") || other.CompareTag("Boss") || other.CompareTag("Slime"))
         {
             enemiesInRange.Remove(other.transform);
         }
@@ -71,6 +71,10 @@ public class rainPoint : Singleton<rainPoint>
                 else if (enemy.CompareTag("Boss"))
                 {
                     closestEnemyPosition.y -= posy;
+                }
+                else if (enemy.CompareTag("Slime"))
+                {
+                    closestEnemyPosition.y += 3.2f;
                 }
             }
         }

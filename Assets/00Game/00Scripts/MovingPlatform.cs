@@ -47,7 +47,7 @@ public class MovingPlatform : MonoBehaviour
 
     private void Update()
     {
-        if (Vector2.Distance(transform.position, targetPos) < 0.05f)
+        if (Vector2.Distance(transform.position, targetPos) < 0.1f)
         {
             NextWaypoint();
         }
@@ -70,6 +70,9 @@ public class MovingPlatform : MonoBehaviour
             playerController.isOnPlatform = true;
             playerController.platformrg = rigi;
             newParent = transform;
+            if (playerController.isOnPlatform)
+                playerRB.gravityScale = 20f;
+           
         }
     }
 
@@ -79,6 +82,7 @@ public class MovingPlatform : MonoBehaviour
         {
             newParent = null;
             playerController.isOnPlatform = false;
+            playerRB.gravityScale = 1f;
         }
     }
 

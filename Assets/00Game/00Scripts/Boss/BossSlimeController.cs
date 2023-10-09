@@ -19,7 +19,7 @@ public class BossSlimeController : BossBase
     {
 
         base.Start();
-
+        HPBar.SetHealth(damageable.Health, damageable.MaxHealth);
 
     }
 
@@ -35,7 +35,7 @@ public class BossSlimeController : BossBase
     {
 
         base.Update();
-
+        HPBar.SetHealth(damageable.Health, damageable.MaxHealth);
 
     }
     public override void OnHit(float dmg, Vector2 knockBack)

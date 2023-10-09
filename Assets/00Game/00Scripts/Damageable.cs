@@ -59,16 +59,16 @@ public class Damageable : MonoBehaviour,IGetHit
             }
             if (_health <= 0)
             {
-                Debug.Log("Die");
+              
                 IsAlive = false;
-                if (this.transform.CompareTag("Enemy")||this.transform.CompareTag("Slime"))
+                if (this.transform.CompareTag("Enemy")||this.transform.CompareTag("Slime")||this.transform.CompareTag("Slime"))
                 {
                     gameManager.killed++; 
                     gameManager.onEndGame.Invoke(); 
                 }
                 if (this.transform.CompareTag("Boss"))
                 {
-                    Debug.Log("Boss");
+                 
                     gameManager.boss_killed++; 
                     gameManager.onEndGame.Invoke();
                 }
