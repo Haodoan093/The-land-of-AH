@@ -7,26 +7,10 @@ using UnityEngine.UIElements;
 
 
 [RequireComponent(typeof(Rigidbody2D), typeof(TouchingDirections), typeof(Damageable))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : CharacterControllerBase, ICharacterController
 {
-
-    Rigidbody2D rigi;
-    Vector2 moveInput;
-    Animator animator;
-    public TouchingDirections touchingDirections;
-    Damageable damageable;
-    CountDownTime countdown;
-
     public bool isOnPlatform;
-  public Rigidbody2D platformrg;
-
-    public float walkSpeed = 5f;
-    public float jumpImpulse = 10f;
-    public float rollSpeed = 10f;
-    public float slideSpeed = 10f;
-    public float airSpeed = 8f;
-
-    private bool _isdefending = false;
+    public Rigidbody2D platformrg;
     public bool IsDefending
     {
         get
@@ -42,7 +26,6 @@ public class PlayerController : MonoBehaviour
     }
 
     [SerializeField]
-    private bool _isMoving = false;
     public bool IsMoving
     {
         get
@@ -56,8 +39,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
-    public bool _isFacingRight = true;
     public bool IsFacingRight
     {
         get
@@ -74,7 +55,7 @@ public class PlayerController : MonoBehaviour
         }
     }
     [SerializeField]
-    private bool _isSlide = false;
+   
     public bool IsSliding
     {
         get
@@ -89,7 +70,7 @@ public class PlayerController : MonoBehaviour
         }
     }
     [SerializeField]
-    private bool _isRolling = false;
+   
     public bool IsRolling
     {
         get
@@ -103,9 +84,6 @@ public class PlayerController : MonoBehaviour
 
         }
     }
-    private float slideDuration = 0.4f;
-    private float rollDuration = 0.2f;
-
     private IEnumerator EndSlide()
     {
         yield return new WaitForSeconds(slideDuration);
@@ -190,13 +168,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float fallMultiplier;
     [SerializeField] float jumpMultiplier;
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        animator = this.GetComponentInChildren<Animator>();
-        rigi = GetComponent<Rigidbody2D>();
-        touchingDirections = GetComponent<TouchingDirections>();
-        damageable = this.GetComponent<Damageable>();
-        countdown=this.GetComponent<CountDownTime>();
+        base.Start(); 
         vecGravity = new Vector2(0, -Physics2D.gravity.y);
     }
 
