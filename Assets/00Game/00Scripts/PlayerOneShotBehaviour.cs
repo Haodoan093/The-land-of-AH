@@ -52,6 +52,6 @@ public class PlayerOneShotBehaviour : StateMachineBehaviour
 
     private void PlayOneShotSound(Vector3 position)
     {
-        AudioSource.PlayClipAtPoint(soundToPlay, position, 100);
+       // AudioSource.PlayClipAtPoint(soundToPlay, position, 100);
     }
 }

@@ -26,18 +26,21 @@ public class GameManager : Singleton<GameManager>
     }
 
   
-    void Update()
-    {
 
-    }
 
- 
     void CheckEndGame()
     {
         if (!hasGameEnded && killed >= monster_limit && boss_killed >= boss_limit)
         {
-            ends.SetActive(true);
+            StartCoroutine(EndGameAfterDelay(1.0f)); 
             hasGameEnded = true;
         }
+    }
+
+    IEnumerator EndGameAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        ends.SetActive(true);
     }
 }
