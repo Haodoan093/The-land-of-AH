@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ProjectileLauncherBase : MonoBehaviour
+public abstract class ProjectileLauncherBase : Singleton<ProjectileLauncherBase>
 {
     public ProjectileBase projectilePrefab;
     public Transform launchPoint;
