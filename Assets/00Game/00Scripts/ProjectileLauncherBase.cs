@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ProjectileLauncherBase : Singleton<ProjectileLauncherBase>
-{
+public abstract class ProjectileLauncherBase : MonoBehaviour { 
+
     public ProjectileBase projectilePrefab;
     public Transform launchPoint;
     public Transform bulletContainer;
